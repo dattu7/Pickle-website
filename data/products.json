@@ -1,0 +1,29 @@
+[
+    {
+        "id": "1",
+        "name": "Spicy Mango Pickle",
+        "description": "Traditional Andhra style spicy mango pickle made with premium spices.",
+        "price": 250,
+        "image": "/images/mango-pickle.jpg",
+        "stock": 50,
+        "category": "Mango"
+    },
+    {
+        "id": "2",
+        "name": "Lemon Pickle",
+        "description": "Tangy and spicy lemon pickle aged to perfection.",
+        "price": 200,
+        "image": "/images/lemon-pickle.jpg",
+        "stock": 30,
+        "category": "Lemon"
+    },
+    {
+        "id": "3",
+        "name": "Tomato Pickle",
+        "description": "Rich and flavorful tomato pickle, perfect with rice and dosa.",
+        "price": 220,
+        "image": "/images/tomato-pickle.jpg",
+        "stock": 40,
+        "category": "Tomato"
+    }
+]
