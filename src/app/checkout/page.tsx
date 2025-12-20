@@ -16,6 +16,7 @@ export default function CheckoutPage() {
         phone: ''
     });
     const [loading, setLoading] = useState(false);
+    const [paymentMethod, setPaymentMethod] = useState('UPI');
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -26,7 +27,7 @@ export default function CheckoutPage() {
                 items: cart,
                 total: cartTotal,
                 shippingDetails: formData,
-                paymentMethod: 'UPI',
+                paymentMethod,
                 status: 'PENDING',
                 createdAt: new Date().toISOString()
             };
@@ -68,7 +69,7 @@ export default function CheckoutPage() {
             <div className="container" style={{ padding: '2rem 1rem' }}>
                 <h1 className="mb-4">Checkout</h1>
 
-                <div className="grid grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
                         <div className="card">
                             <h2 className="mb-4">Shipping Details</h2>
@@ -141,22 +142,44 @@ export default function CheckoutPage() {
                         </div>
 
                         <div className="card">
-                            <h2 className="mb-4">Payment</h2>
-                            <p className="mb-4 text-sm text-gray-600">
-                                Please scan the QR code or use the UPI ID below to pay.
-                                Your order will be confirmed after payment verification.
-                            </p>
+                            <h2 className="mb-4">Payment Method</h2>
 
-                            <div style={{
-                                background: '#f5f5f5',
-                                padding: '1rem',
-                                borderRadius: 'var(--radius)',
-                                textAlign: 'center',
-                                marginBottom: '1rem'
-                            }}>
-                                <p style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>UPI ID: pickle@upi</p>
-                                <p className="text-sm">Merchant Name: PicklePerfect</p>
+                            <div className="flex flex-col gap-3 mb-6">
+                                <label className="flex items-center gap-3 p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
+                                    <input
+                                        type="radio"
+                                        name="payment"
+                                        value="UPI"
+                                        checked={paymentMethod === 'UPI'}
+                                        onChange={(e) => setPaymentMethod(e.target.value)}
+                                    />
+                                    <span>UPI / QR Code</span>
+                                </label>
+                                <label className="flex items-center gap-3 p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
+                                    <input
+                                        type="radio"
+                                        name="payment"
+                                        value="COD"
+                                        checked={paymentMethod === 'COD'}
+                                        onChange={(e) => setPaymentMethod(e.target.value)}
+                                    />
+                                    <span>Cash on Delivery</span>
+                                </label>
                             </div>
+
+                            {paymentMethod === 'UPI' && (
+                                <div style={{
+                                    background: '#f5f5f5',
+                                    padding: '1rem',
+                                    borderRadius: 'var(--radius)',
+                                    textAlign: 'center',
+                                    marginBottom: '1rem'
+                                }}>
+                                    <p className="mb-2 text-sm text-gray-600">Scan to pay</p>
+                                    <p style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>UPI ID: pickle@upi</p>
+                                    <p className="text-sm">Merchant Name: PicklePerfect</p>
+                                </div>
+                            )}
 
                             <button
                                 type="submit"
@@ -164,7 +187,7 @@ export default function CheckoutPage() {
                                 className="btn btn-primary w-full"
                                 disabled={loading}
                             >
-                                {loading ? 'Processing...' : 'Place Order'}
+                                {loading ? 'Processing...' : `Place Order (₹${cartTotal})`}
                             </button>
                         </div>
                     </div>
