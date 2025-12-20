@@ -137,7 +137,7 @@ export default function Home() {
             <div>
               <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem' }}>Our Secret Recipe</h2>
               <p style={{ fontSize: '1.1rem', lineHeight: '1.8', marginBottom: '1.5rem' }}>
-                It all started in my grandmother's kitchen, where the aroma of freshly ground spices and roasting mustard seeds filled the air.
+                It all started in my grandmother&apos;s kitchen, where the aroma of freshly ground spices and roasting mustard seeds filled the air.
                 For generations, we have preserved the art of pickle making, ensuring every jar captures the authentic taste of home.
               </p>
               <p style={{ fontSize: '1.1rem', lineHeight: '1.8', marginBottom: '2rem' }}>
