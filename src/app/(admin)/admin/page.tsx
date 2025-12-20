@@ -11,15 +11,6 @@ export default function AdminPage() {
         stock: ''
     });
     const [message, setMessage] = useState('');
-    const [orders, setOrders] = useState([]);
-
-    useEffect(() => {
-        // Fetch orders
-        fetch('/api/orders/all') // We'll create this endpoint
-            .then(res => res.json())
-            .then(data => setOrders(data))
-            .catch(err => console.error(err));
-    }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -53,7 +44,7 @@ export default function AdminPage() {
             <div className="container" style={{ padding: '2rem 1rem' }}>
                 <h1>Admin Dashboard</h1>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 gap-8">
                     <div className="card h-fit">
                         <h2>Add New Pickle</h2>
                         {message && <p style={{ color: message.includes('success') ? 'var(--success)' : 'var(--error)' }}>{message}</p>}
@@ -103,39 +94,7 @@ export default function AdminPage() {
                         </form>
                     </div>
 
-                    <div className="card">
-                        <h2>Recent Orders</h2>
-                        {orders.length === 0 ? (
-                            <p>No orders yet.</p>
-                        ) : (
-                            <div className="flex flex-col gap-4">
-                                {orders.map((order: any) => (
-                                    <div key={order.id} style={{ borderBottom: '1px solid var(--border)', paddingBottom: '1rem' }}>
-                                        <div className="flex justify-between mb-2">
-                                            <span className="font-bold">#{order.id}</span>
-                                            <span className="text-sm">{new Date(order.createdAt).toLocaleDateString()}</span>
-                                        </div>
-                                        <p className="text-sm mb-1">Customer: {order.shippingDetails.name}</p>
-                                        <p className="text-sm mb-1">Total: ₹{order.total}</p>
-                                        <div className="flex justify-between items-center mt-2">
-                                            <span style={{
-                                                padding: '0.25rem 0.5rem',
-                                                borderRadius: '0.5rem',
-                                                fontSize: '0.75rem',
-                                                background: '#fef9c3',
-                                                color: '#854d0e'
-                                            }}>
-                                                {order.status}
-                                            </span>
-                                            <button className="btn btn-outline" style={{ fontSize: '0.75rem', padding: '0.25rem 0.5rem' }}>
-                                                Manage
-                                            </button>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
+
                 </div>
             </div>
         </main>
