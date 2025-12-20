@@ -2,20 +2,22 @@
     {
         "id": "1",
         "name": "Spicy Mango Pickle",
-        "description": "Traditional Andhra style spicy mango pickle made with premium spices.",
+        "description": "Traditional Andhra style spicy mango pickle made with premium spices. A classic favorite.",
         "price": 250,
         "image": "/images/mango-pickle.jpg",
         "stock": 50,
-        "category": "Mango"
+        "category": "Veg",
+        "type": "Mango"
     },
     {
         "id": "2",
         "name": "Lemon Pickle",
-        "description": "Tangy and spicy lemon pickle aged to perfection.",
+        "description": "Tangy and spicy lemon pickle aged to perfection. Great for digestion.",
         "price": 200,
         "image": "/images/lemon-pickle.jpg",
         "stock": 30,
-        "category": "Lemon"
+        "category": "Veg",
+        "type": "Lemon"
     },
     {
         "id": "3",
@@ -24,6 +26,57 @@
         "price": 220,
         "image": "/images/tomato-pickle.jpg",
         "stock": 40,
-        "category": "Tomato"
+        "category": "Veg",
+        "type": "Tomato"
+    },
+    {
+        "id": "4",
+        "name": "Gongura Pickle",
+        "description": "Authentic Gongura (Sorrel leaves) pickle. A spicy and tangy delight.",
+        "price": 280,
+        "image": "/images/gongura-pickle.jpg",
+        "stock": 25,
+        "category": "Veg",
+        "type": "Leafy"
+    },
+    {
+        "id": "5",
+        "name": "Amla Pickle",
+        "description": "Healthy and tasty Gooseberry (Amla) pickle rich in Vitamin C.",
+        "price": 240,
+        "image": "/images/amla-pickle.jpg",
+        "stock": 35,
+        "category": "Veg",
+        "type": "Amla"
+    },
+    {
+        "id": "6",
+        "name": "Chicken Pickle",
+        "description": "Boneless chicken pickle made with homemade masala. A non-veg lover's dream.",
+        "price": 450,
+        "image": "/images/chicken-pickle.jpg",
+        "stock": 20,
+        "category": "Non-veg",
+        "type": "Chicken"
+    },
+    {
+        "id": "7",
+        "name": "Prawn Pickle",
+        "description": "Spicy and tangy Prawn pickle made with fresh sea prawns.",
+        "price": 500,
+        "image": "/images/prawn-pickle.jpg",
+        "stock": 15,
+        "category": "Non-veg",
+        "type": "Seafood"
+    },
+    {
+        "id": "8",
+        "name": "Mutton Pickle",
+        "description": "Tender mutton chunks pickled in rich spices. A royal treat.",
+        "price": 600,
+        "image": "/images/mutton-pickle.jpg",
+        "stock": 10,
+        "category": "Non-veg",
+        "type": "Mutton"
     }
 ]

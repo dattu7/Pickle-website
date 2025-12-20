@@ -2,6 +2,7 @@ import Navbar from '@/components/Navbar';
 import Link from 'next/link';
 import { CheckCircle } from 'lucide-react';
 import { getOrders } from '@/lib/db';
+import ShareOrderBtn from '@/components/ShareOrderBtn';
 
 export default function OrderConfirmationPage({ params }: { params: { id: string } }) {
     const orders = getOrders();
@@ -41,6 +42,7 @@ export default function OrderConfirmationPage({ params }: { params: { id: string
                         <p className="text-sm text-gray-500 mt-2">
                             Payment Status: <span style={{ color: 'var(--warning)' }}>Pending Confirmation</span>
                         </p>
+                        <ShareOrderBtn order={order} />
                     </div>
                 </div>
 

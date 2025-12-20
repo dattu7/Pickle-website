@@ -2,12 +2,12 @@
 
 import Navbar from '@/components/Navbar';
 import Link from 'next/link';
-import { ArrowLeft, ShoppingCart, Star } from 'lucide-react';
-import { useCart } from '@/context/CartContext';
+import { ArrowLeft, MessageCircle, Star } from 'lucide-react';
+// import { useCart } from '@/context/CartContext';
 import { useEffect, useState } from 'react';
 
 export default function ProductPage({ params }: { params: { id: string } }) {
-    const { addToCart } = useCart();
+    // const { addToCart } = useCart();
     const [product, setProduct] = useState<any>(null);
     const [loading, setLoading] = useState(true);
 
@@ -66,12 +66,9 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                         <div className="flex gap-4">
                             <button
                                 className="btn btn-primary flex-1"
-                                onClick={() => addToCart(product)}
+                                onClick={() => window.open(`https://wa.me/9014475499?text=I want to buy ${product.name}`, '_blank')}
                             >
-                                <ShoppingCart size={20} /> Add to Cart
-                            </button>
-                            <button className="btn btn-outline">
-                                Buy Now
+                                <MessageCircle size={20} /> Order on WhatsApp
                             </button>
                         </div>
                     </div>
