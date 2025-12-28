@@ -48,7 +48,7 @@ export default function Home() {
           }}>
             Experience the nostalgia of our village. Handcrafted in the heart of West Godavari using generations-old recipes.
             <br />
-            <span style={{ fontStyle: 'italic', marginTop: '0.5rem', display: 'block' }}>"మా ఊరి రుచి, మీ ఇంటికి" (Our village taste, to your home)</span>
+            <span style={{ fontStyle: 'italic', marginTop: '0.5rem', display: 'block' }}>&quot;మా ఊరి రుచి, మీ ఇంటికి&quot; (Our village taste, to your home)</span>
           </p>
 
           <div style={{ marginBottom: '2rem', display: 'inline-block', background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(5px)', padding: '0.5rem 1.5rem', borderRadius: '50px', border: '1px solid rgba(255,255,255,0.4)' }}>
@@ -82,22 +82,43 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {[
-              { icon: <Leaf size={40} />, title: "Farm Fresh", desc: "Ingredients sourced directly from Godavari farmers." },
-              { icon: <Heart size={40} />, title: "Traditional Recipe", desc: "Made just like Ammamma (Grandma) used to." },
-              { icon: <Award size={40} />, title: "No Preservatives", desc: "100% Natural sun-dried spices and oils." },
-              { icon: <Truck size={40} />, title: "Village to City", desc: "Delivering the taste of home everywhere." }
+              { icon: <Leaf size={32} />, title: "Farm Fresh", desc: "Ingredients sourced directly from Godavari farmers." },
+              { icon: <Heart size={32} />, title: "Traditional Recipe", desc: "Made just like Ammamma (Grandma) used to." },
+              { icon: <Award size={32} />, title: "No Preservatives", desc: "100% Natural sun-dried spices and oils." },
+              { icon: <Truck size={32} />, title: "Village to City", desc: "Delivering the taste of home everywhere." }
             ].map((feature, i) => (
-              <div key={i} className="card text-center hover:scale-105 transition-transform duration-300" style={{ padding: '2rem', borderTop: '4px solid var(--secondary)' }}>
+              <div key={i} className="card text-center hover:scale-105 transition-all duration-300" style={{
+                padding: '2.5rem 1.5rem',
+                border: '1px solid rgba(0,0,0,0.05)',
+                background: 'linear-gradient(145deg, #ffffff, #f5f7f5)',
+                boxShadow: '0 10px 30px -10px rgba(0,0,0,0.1)',
+                borderRadius: '1.5rem',
+                position: 'relative',
+                overflow: 'hidden'
+              }}>
                 <div style={{
-                  color: 'var(--primary)',
-                  marginBottom: '1rem',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '4px',
+                  background: 'linear-gradient(90deg, var(--primary), var(--secondary))'
+                }}></div>
+                <div style={{
+                  background: 'rgba(46, 125, 50, 0.1)',
+                  width: '70px',
+                  height: '70px',
+                  borderRadius: '50%',
                   display: 'flex',
-                  justifyContent: 'center'
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  margin: '0 auto 1.5rem',
+                  color: 'var(--primary)'
                 }}>
                   {feature.icon}
                 </div>
-                <h3 style={{ marginBottom: '0.5rem' }}>{feature.title}</h3>
-                <p>{feature.desc}</p>
+                <h3 style={{ marginBottom: '0.75rem', fontSize: '1.25rem', fontWeight: '800' }}>{feature.title}</h3>
+                <p style={{ fontSize: '0.95rem', lineHeight: '1.6', color: 'var(--muted)' }}>{feature.desc}</p>
               </div>
             ))}
           </div>
@@ -196,7 +217,7 @@ export default function Home() {
               </p>
               <p style={{ fontSize: '1.1rem', lineHeight: '1.8', marginBottom: '2rem' }}>
                 Every jar of <strong>Godavari Pickles</strong> is a tribute to the culinary heritage of Andhra Pradesh.
-                We don't just sell pickles; we share a piece of our home with you.
+                We don&apos;t just sell pickles; we share a piece of our home with you.
               </p>
 
             </div>
@@ -230,7 +251,7 @@ export default function Home() {
       <section id="contact" style={{ padding: '6rem 0', background: 'var(--surface-hover)' }}>
         <div className="container text-center">
           <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem', color: 'var(--primary)' }}>Contact Us</h2>
-          <p style={{ fontSize: '1.2rem', marginBottom: '3rem', color: 'var(--muted)' }}>We'd love to hear from you!</p>
+          <p style={{ fontSize: '1.2rem', marginBottom: '3rem', color: 'var(--muted)' }}>We&apos;d love to hear from you!</p>
 
           <div className="card" style={{ maxWidth: '600px', margin: '0 auto', padding: '3rem' }}>
             <div style={{ marginBottom: '2rem' }}>
