@@ -8,10 +8,8 @@ export default function Home() {
       <Navbar />
 
       {/* Hero Section */}
-      <section style={{
-        background: 'linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url("/images/background1.png")', // Changed to a more rustic/village looking image
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
+      {/* Hero Section */}
+      <section className="hero-section" style={{
         color: 'white',
         padding: '10rem 1rem',
         textAlign: 'center',
@@ -60,7 +58,7 @@ export default function Home() {
             <Link href="/shop" className="btn btn-primary" style={{ padding: '1rem 2.5rem', fontSize: '1.2rem' }}>
               Order Now <ArrowRight size={24} />
             </Link>
-            <Link href="/about" className="btn" style={{
+            <button className="btn" style={{
               background: 'rgba(255,255,255,0.1)',
               backdropFilter: 'blur(5px)',
               border: '2px solid white',
@@ -68,8 +66,8 @@ export default function Home() {
               padding: '1rem 2.5rem',
               fontSize: '1.2rem'
             }}>
-              Our Village Story
-            </Link>
+              Watch Our Process
+            </button>
           </div>
         </div>
       </section>
@@ -90,7 +88,7 @@ export default function Home() {
               <div key={i} className="card text-center hover:scale-105 transition-all duration-300" style={{
                 padding: '2.5rem 1.5rem',
                 border: '1px solid rgba(0,0,0,0.05)',
-                background: 'linear-gradient(145deg, #ffffff, #f5f7f5)',
+                background: 'linear-gradient(145deg, var(--surface), var(--surface-hover))',
                 boxShadow: '0 10px 30px -10px rgba(0,0,0,0.1)',
                 borderRadius: '1.5rem',
                 position: 'relative',
@@ -117,7 +115,7 @@ export default function Home() {
                 }}>
                   {feature.icon}
                 </div>
-                <h3 style={{ marginBottom: '0.75rem', fontSize: '1.25rem', fontWeight: '800' }}>{feature.title}</h3>
+                <h3 style={{ marginBottom: '0.75rem', fontSize: '1.25rem', fontWeight: '800', color: 'var(--foreground)' }}>{feature.title}</h3>
                 <p style={{ fontSize: '0.95rem', lineHeight: '1.6', color: 'var(--muted)' }}>{feature.desc}</p>
               </div>
             ))}

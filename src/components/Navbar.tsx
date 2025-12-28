@@ -13,7 +13,7 @@ export default function Navbar() {
       </div>
       <div className="container flex justify-between items-center" style={{ padding: '1rem' }}>
         <Link href="/" className="flex items-center gap-2">
-          <span style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--primary)' }}>
+          <span style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'white' }}>
             Godavari Pickles
           </span>
         </Link>
