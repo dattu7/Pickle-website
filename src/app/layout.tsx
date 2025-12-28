@@ -7,8 +7,8 @@ import WhatsAppBtn from "@/components/WhatsAppBtn";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: "PicklePerfect | Authentic Homemade Pickles",
-  description: "Handcrafted pickles made from secret family recipes.",
+  title: "Godavari Pickles | Authentic West Godavari Tastes",
+  description: "Authentic homemade pickles from West Godavari, made with traditional village recipes.",
 };
 
 export default function RootLayout({
