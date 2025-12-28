@@ -8,12 +8,12 @@ export default function Navbar() {
 
   return (
     <nav className="navbar" style={{ padding: 0 }}>
-      <div style={{ background: 'var(--primary)', color: 'white', textAlign: 'center', padding: '0.5rem', fontSize: '0.9rem', fontWeight: '500' }}>
+      <div style={{ background: 'black', color: 'white', textAlign: 'center', padding: '0.5rem', fontSize: '0.9rem', fontWeight: '500' }}>
         🚚 We Deliver All Over India | భారతదేశం అంతటా డెలివరీ కలదు
       </div>
       <div className="container flex justify-between items-center" style={{ padding: '1rem' }}>
         <Link href="/" className="flex items-center gap-2">
-          <span style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'white' }}>
+          <span style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--secondary)', textDecoration: 'underline' }}>
             Godavari Pickles
           </span>
         </Link>
