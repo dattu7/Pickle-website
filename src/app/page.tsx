@@ -82,21 +82,56 @@ export default function Home() {
           <h2 className="text-center mb-2" style={{ fontSize: '2.5rem', color: 'var(--primary)' }}>{t('whyChoose.title')}</h2>
           <p className="text-center mb-12" style={{ fontSize: '1.2rem' }}>{t('whyChoose.subtitle')}</p>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div style={{
+            display: 'flex',
+            overflowX: 'auto',
+            gap: '1.5rem',
+            paddingBottom: '2rem', // Increased padding for shadow
+            scrollSnapType: 'x mandatory',
+            justifyContent: 'flex-start'
+          }} className="no-scrollbar">
             {[
-              { icon: <Leaf size={32} />, title: t('whyChoose.farmFresh.title'), desc: t('whyChoose.farmFresh.desc') },
-              { icon: <Heart size={32} />, title: t('whyChoose.traditional.title'), desc: t('whyChoose.traditional.desc') },
-              { icon: <Award size={32} />, title: t('whyChoose.noPreservatives.title'), desc: t('whyChoose.noPreservatives.desc') },
-              { icon: <Truck size={32} />, title: t('whyChoose.villageToCity.title'), desc: t('whyChoose.villageToCity.desc') }
+              {
+                icon: <Leaf size={32} />,
+                title: t('whyChoose.farmFresh.title'),
+                desc: t('whyChoose.farmFresh.desc'),
+                color: '#4caf50', // Green
+                bg: '#e8f5e9'
+              },
+              {
+                icon: <Heart size={32} />,
+                title: t('whyChoose.traditional.title'),
+                desc: t('whyChoose.traditional.desc'),
+                color: '#ff9800', // Orange/Gold
+                bg: '#fff3e0'
+              },
+              {
+                icon: <Award size={32} />,
+                title: t('whyChoose.noPreservatives.title'),
+                desc: t('whyChoose.noPreservatives.desc'),
+                color: '#f44336', // Red
+                bg: '#ffebee'
+              },
+              {
+                icon: <Truck size={32} />,
+                title: t('whyChoose.villageToCity.title'),
+                desc: t('whyChoose.villageToCity.desc'),
+                color: '#2196f3', // Blue
+                bg: '#e3f2fd'
+              }
             ].map((feature, i) => (
-              <div key={i} className="card text-center hover:scale-105 transition-all duration-300" style={{
+              <div key={i} className="card text-center hover:scale-105 transition-all duration-300 animate-slide-in-right" style={{
+                minWidth: '300px', // Wider cards
+                flex: '0 0 auto', // Don't grow or shrink, fixed width based on minWidth
+                scrollSnapAlign: 'center', // Center alignment for carousel feel
                 padding: '2.5rem 1.5rem',
-                border: '1px solid rgba(0,0,0,0.05)',
-                background: 'linear-gradient(145deg, var(--surface), var(--surface-hover))',
+                border: `1px solid ${feature.color}20`, // Subtle colored border
+                background: 'var(--surface)',
                 boxShadow: '0 10px 30px -10px rgba(0,0,0,0.1)',
                 borderRadius: '1.5rem',
                 position: 'relative',
-                overflow: 'hidden'
+                overflow: 'hidden',
+                animationDelay: `${i * 0.2}s`
               }}>
                 <div style={{
                   position: 'absolute',
@@ -104,18 +139,19 @@ export default function Home() {
                   left: 0,
                   width: '100%',
                   height: '4px',
-                  background: 'linear-gradient(90deg, var(--primary), var(--secondary))'
+                  background: feature.color
                 }}></div>
                 <div style={{
-                  background: 'rgba(0, 101, 54, 0.1)', // Updated green
-                  width: '70px',
-                  height: '70px',
+                  background: feature.bg,
+                  width: '80px',
+                  height: '80px',
                   borderRadius: '50%',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   margin: '0 auto 1.5rem',
-                  color: 'var(--primary)'
+                  color: feature.color,
+                  boxShadow: `0 4px 10px ${feature.color}30`
                 }}>
                   {feature.icon}
                 </div>

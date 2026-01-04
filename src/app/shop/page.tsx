@@ -17,6 +17,7 @@ export default function ShopPage() {
 
     const vegProducts = products.filter(p => p.category === 'Veg');
     const nonVegProducts = products.filter(p => p.category === 'Non-veg');
+    const podiProducts = products.filter(p => p.category === 'Podi');
 
     const ProductSection = ({ title, items }: { title: string, items: any[] }) => (
         <div className="mb-12">
@@ -53,17 +54,17 @@ export default function ShopPage() {
                                     position: 'absolute',
                                     top: '8px',
                                     right: '8px',
-                                    background: product.category === 'Veg' ? '#4caf50' : '#f44336',
+                                    background: product.category === 'Non-veg' ? '#f44336' : (product.category === 'Podi' ? '#ed6c02' : '#4caf50'),
                                     color: 'white',
                                     padding: '2px 6px',
                                     borderRadius: '4px',
                                     fontSize: '0.7rem',
                                     fontWeight: 'bold'
                                 }}>
-                                    {product.category === 'Veg' ? 'VEG' : 'NON-VEG'}
+                                    {product.category === 'Non-veg' ? 'NON-VEG' : (product.category === 'Podi' ? 'PODI' : 'VEG')}
                                 </span>
                                 <span style={{ fontSize: '3rem' }}>
-                                    {product.category === 'Veg' ? '🥒' : '🍗'}
+                                    {product.category === 'Non-veg' ? '🍗' : (product.category === 'Podi' ? '🌶️' : '🥒')}
                                 </span>
                             </div>
                             <h3 style={{ fontSize: '1.1rem', marginBottom: '0.5rem' }}>{product.name}</h3>
@@ -94,6 +95,7 @@ export default function ShopPage() {
 
                 <ProductSection title={t('shop.veg')} items={vegProducts} />
                 <ProductSection title={t('shop.nonVeg')} items={nonVegProducts} />
+                <ProductSection title={t('shop.podis')} items={podiProducts} />
             </div>
         </main>
     );

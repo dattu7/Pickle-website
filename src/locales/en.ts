@@ -63,6 +63,7 @@ export const en = {
         title: "Shop Godavari Delights",
         veg: "Vegetarian Pickles",
         nonVeg: "Non-Veg Pickles",
+        podis: "Podis (Powders)",
         view: "View"
     }
 };

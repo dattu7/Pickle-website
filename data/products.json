@@ -1,9 +1,9 @@
 [
     {
         "id": "1",
-        "name": "Spicy Mango Pickle",
-        "description": "Traditional Andhra style spicy mango pickle made with premium spices. A classic favorite.",
-        "price": 250,
+        "name": "Mango Pickle (Avakaya)",
+        "description": "Traditional Andhra style spicy mango pickle (Avakaya) made with premium spices.",
+        "price": 600,
         "image": "/images/mango-pickle.jpg",
         "stock": 50,
         "category": "Veg",
@@ -11,9 +11,9 @@
     },
     {
         "id": "2",
-        "name": "Lemon Pickle",
-        "description": "Tangy and spicy lemon pickle aged to perfection. Great for digestion.",
-        "price": 200,
+        "name": "Lemon Pickle (Nimmakaya)",
+        "description": "Tangy and spicy lemon pickle aged to perfection.",
+        "price": 500,
         "image": "/images/lemon-pickle.jpg",
         "stock": 30,
         "category": "Veg",
@@ -21,19 +21,19 @@
     },
     {
         "id": "3",
-        "name": "Tomato Pickle",
-        "description": "Rich and flavorful tomato pickle, perfect with rice and dosa.",
-        "price": 220,
-        "image": "/images/tomato-pickle.jpg",
-        "stock": 40,
+        "name": "Amla Pickle (Usirikaya)",
+        "description": "Healthy and tasty Gooseberry (Amla) pickle rich in Vitamin C.",
+        "price": 600,
+        "image": "/images/amla-pickle.jpg",
+        "stock": 35,
         "category": "Veg",
-        "type": "Tomato"
+        "type": "Amla"
     },
     {
         "id": "4",
         "name": "Gongura Pickle",
         "description": "Authentic Gongura (Sorrel leaves) pickle. A spicy and tangy delight.",
-        "price": 280,
+        "price": 500,
         "image": "/images/gongura-pickle.jpg",
         "stock": 25,
         "category": "Veg",
@@ -41,42 +41,192 @@
     },
     {
         "id": "5",
-        "name": "Amla Pickle",
-        "description": "Healthy and tasty Gooseberry (Amla) pickle rich in Vitamin C.",
-        "price": 240,
-        "image": "/images/amla-pickle.jpg",
-        "stock": 35,
+        "name": "Tomato Pickle",
+        "description": "Rich and flavorful tomato pickle, perfect with rice and dosa.",
+        "price": 500,
+        "image": "/images/tomato-pickle.jpg",
+        "stock": 40,
         "category": "Veg",
-        "type": "Amla"
+        "type": "Tomato"
     },
     {
         "id": "6",
+        "name": "Chilli Pickle",
+        "description": "Spicy green chilli pickle for those who love heat.",
+        "price": 500,
+        "image": "/images/chilli-pickle.jpg",
+        "stock": 20,
+        "category": "Veg",
+        "type": "Chilli"
+    },
+    {
+        "id": "7",
+        "name": "Ginger Pickle",
+        "description": "Zesty ginger pickle (Allam Pachadi) that aids digestion.",
+        "price": 500,
+        "image": "/images/ginger-pickle.jpg",
+        "stock": 25,
+        "category": "Veg",
+        "type": "Ginger"
+    },
+    {
+        "id": "8",
+        "name": "Carrot Pickle",
+        "description": "Crunchy and spicy carrot pickle.",
+        "price": 500,
+        "image": "/images/carrot-pickle.jpg",
+        "stock": 20,
+        "category": "Veg",
+        "type": "Carrot"
+    },
+    {
+        "id": "9",
+        "name": "Drumstick Pickle (Munagakaya)",
+        "description": "Unique and tasty Drumstick pickle.",
+        "price": 500,
+        "image": "/images/drumstick-pickle.jpg",
+        "stock": 15,
+        "category": "Veg",
+        "type": "Drumstick"
+    },
+    {
+        "id": "10",
+        "name": "Dondakaya Pickle (Ivy Gourd)",
+        "description": "Traditional Ivy Gourd pickle with a perfect crunch.",
+        "price": 500,
+        "image": "/images/dondakaya-pickle.jpg",
+        "stock": 20,
+        "category": "Veg",
+        "type": "Ivy Gourd"
+    },
+    {
+        "id": "11",
+        "name": "Chikkudikaya Pickle (Hyacinth Beans)",
+        "description": "Flavorful Hyacinth/Flat Beans pickle.",
+        "price": 500,
+        "image": "/images/chikkudikaya-pickle.jpg",
+        "stock": 15,
+        "category": "Veg",
+        "type": "Beans"
+    },
+    {
+        "id": "12",
         "name": "Chicken Pickle",
-        "description": "Boneless chicken pickle made with homemade masala. A non-veg lover's dream.",
-        "price": 450,
+        "description": "Boneless chicken pickle made with homemade masala.",
+        "price": 800,
         "image": "/images/chicken-pickle.jpg",
         "stock": 20,
         "category": "Non-veg",
         "type": "Chicken"
     },
     {
-        "id": "7",
-        "name": "Prawn Pickle",
+        "id": "13",
+        "name": "Mutton Pickle",
+        "description": "Tender mutton chunks pickled in rich spices.",
+        "price": 1500,
+        "image": "/images/mutton-pickle.jpg",
+        "stock": 10,
+        "category": "Non-veg",
+        "type": "Mutton"
+    },
+    {
+        "id": "14",
+        "name": "Fish Pickle - Pandugappa",
+        "description": "Premium Pandugappa fish pickle.",
+        "price": 2000,
+        "image": "/images/fish-pandugappa-pickle.jpg",
+        "stock": 10,
+        "category": "Non-veg",
+        "type": "Fish"
+    },
+    {
+        "id": "15",
+        "name": "Fish Pickle - Koramenu",
+        "description": "Tasty Koramenu fish pickle.",
+        "price": 1500,
+        "image": "/images/fish-koramenu-pickle.jpg",
+        "stock": 10,
+        "category": "Non-veg",
+        "type": "Fish"
+    },
+    {
+        "id": "16",
+        "name": "Prawn Pickle (Royyala)",
         "description": "Spicy and tangy Prawn pickle made with fresh sea prawns.",
-        "price": 500,
+        "price": 1000,
         "image": "/images/prawn-pickle.jpg",
         "stock": 15,
         "category": "Non-veg",
         "type": "Seafood"
     },
     {
-        "id": "8",
-        "name": "Mutton Pickle",
-        "description": "Tender mutton chunks pickled in rich spices. A royal treat.",
-        "price": 600,
-        "image": "/images/mutton-pickle.jpg",
+        "id": "17",
+        "name": "Crab Pickle",
+        "description": "Exquisite Crab pickle for seafood lovers.",
+        "price": 1200,
+        "image": "/images/crab-pickle.jpg",
+        "stock": 5,
+        "category": "Non-veg",
+        "type": "Seafood"
+    },
+    {
+        "id": "18",
+        "name": "Country Chicken Pickle (Natu Kodi)",
+        "description": "Authentic Natu Kodi (Country Chicken) pickle.",
+        "price": 2000,
+        "image": "/images/natu-kodi-pickle.jpg",
         "stock": 10,
         "category": "Non-veg",
-        "type": "Mutton"
+        "type": "Chicken"
+    },
+    {
+        "id": "19",
+        "name": "Karivepaku Podi (Curry Leaves)",
+        "description": "Healthy and aromatic Curry Leaves powder.",
+        "price": 350,
+        "image": "/images/karivepaku-podi.jpg",
+        "stock": 30,
+        "category": "Podi",
+        "type": "Podi"
+    },
+    {
+        "id": "20",
+        "name": "Munagaku Podi (Drumstick Leaves)",
+        "description": "Nutritious Drumstick Leaves powder.",
+        "price": 350,
+        "image": "/images/munagaku-podi.jpg",
+        "stock": 30,
+        "category": "Podi",
+        "type": "Podi"
+    },
+    {
+        "id": "21",
+        "name": "Nalla Karam Podi",
+        "description": "Spicy Garlic Chilli powder (Nalla Karam).",
+        "price": 350,
+        "image": "/images/nalla-karam-podi.jpg",
+        "stock": 30,
+        "category": "Podi",
+        "type": "Podi"
+    },
+    {
+        "id": "22",
+        "name": "Nuvvula Podi (Sesame Seeds)",
+        "description": "Flavorful Sesame Seeds powder.",
+        "price": 350,
+        "image": "/images/nuvvula-podi.jpg",
+        "stock": 30,
+        "category": "Podi",
+        "type": "Podi"
+    },
+    {
+        "id": "23",
+        "name": "Kobbari Podi (Dry Coconut)",
+        "description": "Delicious Dry Coconut powder.",
+        "price": 350,
+        "image": "/images/kobbari-podi.jpg",
+        "stock": 30,
+        "category": "Podi",
+        "type": "Podi"
     }
 ]

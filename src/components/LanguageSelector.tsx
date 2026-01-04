@@ -1,13 +1,27 @@
 "use client";
 
 import { useLanguage } from "@/context/LanguageContext";
-import { Globe, Check, ChevronDown } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
+import { Menu, MenuItem, Button, ListItemText, Box } from "@mui/material";
+import { Check, ChevronDown, Globe } from "lucide-react";
 
 export default function LanguageSelector() {
     const { language, setLanguage } = useLanguage();
-    const [isOpen, setIsOpen] = useState(false);
-    const dropdownRef = useRef<HTMLDivElement>(null);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleLanguageSelect = (code: string) => {
+        setLanguage(code as any);
+        handleClose();
+    };
 
     const languages = [
         { code: 'en', label: 'English' },
@@ -15,54 +29,89 @@ export default function LanguageSelector() {
         { code: 'hi', label: 'Hindi (हिंदी)' }
     ];
 
-    useEffect(() => {
-        function handleClickOutside(event: MouseEvent) {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-                setIsOpen(false);
-            }
-        }
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, []);
+    const currentLang = languages.find(l => l.code === language) || languages[0];
 
     return (
-        <div className="relative" ref={dropdownRef}>
-            <button
-                onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center gap-2 px-3 py-2 rounded-full bg-white/10 hover:bg-white/20 transition-all text-white border border-white/20"
-                title="Change Language"
+        <Box>
+            <Button
+                onClick={handleClick}
+                variant="contained"
+                disableElevation
+                sx={{
+                    textTransform: 'none',
+                    borderRadius: '50px',
+                    backgroundColor: 'white',
+                    color: '#333',
+                    border: '1px solid #e0e0e0',
+                    padding: '6px 16px',
+                    '&:hover': {
+                        backgroundColor: '#f5f5f5',
+                        borderColor: '#d0d0d0',
+                    },
+                    minWidth: 'auto',
+                    display: 'flex',
+                    gap: 1,
+                    boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
+                }}
             >
-                <Globe size={18} />
-                <span className="uppercase font-bold text-sm tracking-wide">{language}</span>
-                <ChevronDown size={16} className={`transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
-            </button>
+                <Globe size={18} className="text-gray-600" />
+                <span className="font-semibold text-sm hidden sm:inline">{currentLang.label.split(' ')[0]}</span>
+                <ChevronDown size={16} className={`transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
+            </Button>
 
-            {isOpen && (
-                <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-2xl border border-gray-100 z-50 overflow-hidden animate-fade-in origin-top-right">
-                    <div className="py-1">
-                        {languages.map((lang) => (
-                            <button
-                                key={lang.code}
-                                onClick={() => {
-                                    setLanguage(lang.code as any);
-                                    setIsOpen(false);
-                                }}
-                                className={`w-full text-left px-4 py-3 hover:bg-gray-50 transition-colors flex items-center justify-between group ${language === lang.code ? 'bg-green-50/50' : ''
-                                    }`}
-                            >
-                                <span className={`text-sm ${language === lang.code ? 'font-bold text-[#006536]' : 'text-gray-700 group-hover:text-gray-900'}`}>
-                                    {lang.label}
-                                </span>
-                                {language === lang.code && (
-                                    <Check size={16} className="text-[#006536]" />
-                                )}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-            )}
-        </div>
+            <Menu
+                anchorEl={anchorEl}
+                id="language-menu"
+                open={open}
+                onClose={handleClose}
+                onClick={handleClose}
+                PaperProps={{
+                    elevation: 0,
+                    sx: {
+                        overflow: 'visible',
+                        filter: 'drop-shadow(0px 4px 20px rgba(0,0,0,0.1))',
+                        mt: 1.5,
+                        borderRadius: 3,
+                        minWidth: 180,
+                        border: '1px solid #f0f0f0',
+                        '& .MuiList-root': {
+                            padding: 1
+                        }
+                    },
+                }}
+                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+            >
+                {languages.map((lang) => (
+                    <MenuItem
+                        key={lang.code}
+                        onClick={() => handleLanguageSelect(lang.code)}
+                        selected={language === lang.code}
+                        sx={{
+                            padding: '10px 16px',
+                            borderRadius: 2,
+                            mb: 0.5,
+                            '&.Mui-selected': {
+                                backgroundColor: 'rgba(0, 101, 54, 0.08)',
+                                '&:hover': {
+                                    backgroundColor: 'rgba(0, 101, 54, 0.12)',
+                                }
+                            },
+                            '&:hover': {
+                                backgroundColor: '#f9fafb'
+                            }
+                        }}
+                    >
+                        <ListItemText
+                            primary={lang.label}
+                            primaryTypographyProps={{ fontSize: 14, fontWeight: 500, color: '#1f2937' }}
+                        />
+                        {language === lang.code && (
+                            <Check size={16} color="#006536" />
+                        )}
+                    </MenuItem>
+                ))}
+            </Menu>
+        </Box>
     );
 }
