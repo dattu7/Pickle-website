@@ -3,8 +3,10 @@
 import Navbar from '@/components/Navbar';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function ShopPage() {
+    const { t } = useLanguage();
     const [products, setProducts] = useState<any[]>([]);
 
     useEffect(() => {
@@ -73,7 +75,7 @@ export default function ShopPage() {
                         <div className="flex justify-between items-center mt-3 pt-3 border-t border-gray-100">
                             <span style={{ fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--primary)' }}>₹{product.price}</span>
                             <Link href={`/shop/${product.id}`} className="btn btn-outline hover:bg-primary hover:text-white" style={{ padding: '0.4rem 0.8rem', fontSize: '0.9rem' }}>
-                                View
+                                {t('shop.view')}
                             </Link>
                         </div>
                     </div>
@@ -87,11 +89,11 @@ export default function ShopPage() {
             <Navbar />
             <div className="container" style={{ padding: '2rem 1rem' }}>
                 <div className="flex justify-between items-center mb-8">
-                    <h1 className="mb-0" style={{ fontSize: '2rem' }}>Shop Godavari Delights</h1>
+                    <h1 className="mb-0" style={{ fontSize: '2rem' }}>{t('shop.title')}</h1>
                 </div>
 
-                <ProductSection title="Vegetarian Pickles (శాకాహారం)" items={vegProducts} />
-                <ProductSection title="Non-Veg Pickles (మాంసాహారం)" items={nonVegProducts} />
+                <ProductSection title={t('shop.veg')} items={vegProducts} />
+                <ProductSection title={t('shop.nonVeg')} items={nonVegProducts} />
             </div>
         </main>
     );

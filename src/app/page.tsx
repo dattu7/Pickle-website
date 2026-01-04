@@ -1,13 +1,17 @@
+'use client';
+
 import Navbar from '@/components/Navbar';
 import Link from 'next/link';
 import { ArrowRight, Star, Leaf, Award, Heart, Truck } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function Home() {
+  const { t } = useLanguage();
+
   return (
     <main>
       <Navbar />
 
-      {/* Hero Section */}
       {/* Hero Section */}
       <section className="hero-section" style={{
         color: 'white',
@@ -25,9 +29,9 @@ export default function Home() {
             marginBottom: '1rem',
             textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
             color: '#ffffff',
-            fontFamily: 'serif' // More traditional feel
+            fontFamily: 'serif'
           }}>
-            Godavari Pickles
+            {t('hero.title')}
           </h1>
           <h2 style={{
             fontSize: '2rem',
@@ -35,7 +39,7 @@ export default function Home() {
             color: 'var(--secondary)',
             fontWeight: '400'
           }}>
-            గోదావరి రుచులు - Authentic West Godavari Tastes
+            {t('hero.subtitle')}
           </h2>
           <p style={{
             fontSize: '1.25rem',
@@ -44,19 +48,19 @@ export default function Home() {
             color: '#f0f0f0',
             lineHeight: '1.6'
           }}>
-            Experience the nostalgia of our village. Handcrafted in the heart of West Godavari using generations-old recipes.
+            {t('hero.description')}
             <br />
-            <span style={{ fontStyle: 'italic', marginTop: '0.5rem', display: 'block' }}>&quot;మా ఊరి రుచి, మీ ఇంటికి&quot; (Our village taste, to your home)</span>
+            <span style={{ fontStyle: 'italic', marginTop: '0.5rem', display: 'block' }}>{t('hero.quote')}</span>
           </p>
 
           <div style={{ marginBottom: '2rem', display: 'inline-block', background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(5px)', padding: '0.5rem 1.5rem', borderRadius: '50px', border: '1px solid rgba(255,255,255,0.4)' }}>
             <span style={{ color: '#fff', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <Truck size={20} /> Shipping All Over India 🇮🇳
+              <Truck size={20} /> {t('hero.shipping')}
             </span>
           </div>
           <div className="flex justify-center gap-4 flex-wrap">
             <Link href="/shop" className="btn btn-primary" style={{ padding: '1rem 2.5rem', fontSize: '1.2rem' }}>
-              Order Now <ArrowRight size={24} />
+              {t('hero.orderNow')} <ArrowRight size={24} />
             </Link>
             <button className="btn" style={{
               background: 'rgba(255,255,255,0.1)',
@@ -66,7 +70,7 @@ export default function Home() {
               padding: '1rem 2.5rem',
               fontSize: '1.2rem'
             }}>
-              Watch Our Process
+              {t('hero.watchProcess')}
             </button>
           </div>
         </div>
@@ -75,15 +79,15 @@ export default function Home() {
       {/* Why Choose Godavari Pickles? */}
       <section style={{ padding: '6rem 0', background: 'var(--background)' }}>
         <div className="container">
-          <h2 className="text-center mb-2" style={{ fontSize: '2.5rem', color: 'var(--primary)' }}>Why Godavari Pickles?</h2>
-          <p className="text-center mb-12" style={{ fontSize: '1.2rem' }}>Pure, Authentic, and Made with Love</p>
+          <h2 className="text-center mb-2" style={{ fontSize: '2.5rem', color: 'var(--primary)' }}>{t('whyChoose.title')}</h2>
+          <p className="text-center mb-12" style={{ fontSize: '1.2rem' }}>{t('whyChoose.subtitle')}</p>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {[
-              { icon: <Leaf size={32} />, title: "Farm Fresh", desc: "Ingredients sourced directly from Godavari farmers." },
-              { icon: <Heart size={32} />, title: "Traditional Recipe", desc: "Made just like Ammamma (Grandma) used to." },
-              { icon: <Award size={32} />, title: "No Preservatives", desc: "100% Natural sun-dried spices and oils." },
-              { icon: <Truck size={32} />, title: "Village to City", desc: "Delivering the taste of home everywhere." }
+              { icon: <Leaf size={32} />, title: t('whyChoose.farmFresh.title'), desc: t('whyChoose.farmFresh.desc') },
+              { icon: <Heart size={32} />, title: t('whyChoose.traditional.title'), desc: t('whyChoose.traditional.desc') },
+              { icon: <Award size={32} />, title: t('whyChoose.noPreservatives.title'), desc: t('whyChoose.noPreservatives.desc') },
+              { icon: <Truck size={32} />, title: t('whyChoose.villageToCity.title'), desc: t('whyChoose.villageToCity.desc') }
             ].map((feature, i) => (
               <div key={i} className="card text-center hover:scale-105 transition-all duration-300" style={{
                 padding: '2.5rem 1.5rem',
@@ -103,7 +107,7 @@ export default function Home() {
                   background: 'linear-gradient(90deg, var(--primary), var(--secondary))'
                 }}></div>
                 <div style={{
-                  background: 'rgba(46, 125, 50, 0.1)',
+                  background: 'rgba(0, 101, 54, 0.1)', // Updated green
                   width: '70px',
                   height: '70px',
                   borderRadius: '50%',
@@ -128,10 +132,10 @@ export default function Home() {
         <div className="container">
           <div className="flex justify-between items-end mb-8 flex-wrap gap-4">
             <div>
-              <h2 style={{ marginBottom: '0.5rem', color: 'var(--primary)' }}>Mana Special Pickles</h2>
-              <p>Our most loved varieties from the Godavari region</p>
+              <h2 style={{ marginBottom: '0.5rem', color: 'var(--primary)' }}>{t('special.title')}</h2>
+              <p>{t('special.subtitle')}</p>
             </div>
-            <Link href="/shop" className="btn btn-outline" style={{ padding: '0.25rem 0.8rem', fontSize: '0.85rem' }}>View All Varieties</Link>
+            <Link href="/shop" className="btn btn-outline" style={{ padding: '0.25rem 0.8rem', fontSize: '0.85rem' }}>{t('special.viewAll')}</Link>
           </div>
 
           <div style={{
@@ -142,11 +146,11 @@ export default function Home() {
             scrollSnapType: 'x mandatory'
           }} className="no-scrollbar">
             {[
-              { name: "Avakaya (Mango)", telugu: "ఆవకాయ", price: 250, rating: 5, reviews: 150, img: "🥭", category: 'Veg' },
-              { name: "Kodi Pachadi (Chicken)", telugu: "కోడి పచ్చడి", price: 450, rating: 5, reviews: 98, img: "🍗", category: 'Non-veg' },
-              { name: "Gongura Pachadi", telugu: "గోంగూర", price: 280, rating: 4, reviews: 112, img: "🍃", category: 'Veg' },
-              { name: "Allam Pachadi (Ginger)", telugu: "అల్లం పచ్చడి", price: 220, rating: 5, reviews: 80, img: "🫚", category: 'Veg' },
-              { name: "Royyala Pachadi (Prawns)", telugu: "రొయ్యల పచ్చడి", price: 550, rating: 5, reviews: 105, img: "🦐", category: 'Non-veg' }
+              { name: t('special.items.avakaya'), telugu: "ఆవకాయ", price: 250, rating: 5, reviews: 150, img: "🥭", category: 'Veg' },
+              { name: t('special.items.chicken'), telugu: "కోడి పచ్చడి", price: 450, rating: 5, reviews: 98, img: "🍗", category: 'Non-veg' },
+              { name: t('special.items.gongura'), telugu: "గోంగూర", price: 280, rating: 4, reviews: 112, img: "🍃", category: 'Veg' },
+              { name: t('special.items.ginger'), telugu: "అల్లం పచ్చడి", price: 220, rating: 5, reviews: 80, img: "🫚", category: 'Veg' },
+              { name: t('special.items.prawns'), telugu: "రొయ్యల పచ్చడి", price: 550, rating: 5, reviews: 105, img: "🦐", category: 'Non-veg' }
             ].map((item, i) => (
               <div key={i} className="card group" style={{
                 minWidth: '280px',
@@ -194,7 +198,7 @@ export default function Home() {
                 </div>
                 <div className="flex justify-between items-center">
                   <span style={{ fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--primary)' }}>₹{item.price}</span>
-                  <Link href="/shop" className="btn btn-primary" style={{ padding: '0.4rem 0.8rem', fontSize: '0.9rem' }}>Add to Cart</Link>
+                  {/* Removed Add to Cart button */}
                 </div>
               </div>
             ))}
@@ -207,15 +211,13 @@ export default function Home() {
         <div className="container">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
-              <span style={{ color: 'var(--secondary)', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '1px' }}>Our Roots</span>
-              <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem', color: 'var(--primary)' }}>From West Godavari to Your Plate</h2>
+              <span style={{ color: 'var(--secondary)', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '1px' }}>{t('about.roots')}</span>
+              <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem', color: 'var(--primary)' }}>{t('about.title')}</h2>
               <p style={{ fontSize: '1.1rem', lineHeight: '1.8', marginBottom: '1.5rem' }}>
-                Born in the lush green fields of West Godavari, our pickles carry the essence of our village.
-                We still follow the age-old tradition of selecting the raw mangoes from our own orchards and sun-drying our spices on the terraces.
+                {t('about.p1')}
               </p>
               <p style={{ fontSize: '1.1rem', lineHeight: '1.8', marginBottom: '2rem' }}>
-                Every jar of <strong>Godavari Pickles</strong> is a tribute to the culinary heritage of Andhra Pradesh.
-                We don&apos;t just sell pickles; we share a piece of our home with you.
+                {t('about.p2')}
               </p>
 
             </div>
@@ -237,8 +239,8 @@ export default function Home() {
                 borderRadius: 'var(--radius)',
                 maxWidth: '80%'
               }}>
-                <p style={{ margin: 0, fontWeight: 'bold', color: 'var(--primary)' }}>Authentic Preparation</p>
-                <p style={{ margin: 0, fontSize: '0.9rem' }}>Traditional stone grinding</p>
+                <p style={{ margin: 0, fontWeight: 'bold', color: 'var(--primary)' }}>{t('about.authentic')}</p>
+                <p style={{ margin: 0, fontSize: '0.9rem' }}>{t('about.grinding')}</p>
               </div>
             </div>
           </div>
@@ -248,8 +250,8 @@ export default function Home() {
       {/* Contact Section */}
       <section id="contact" style={{ padding: '6rem 0', background: 'var(--surface-hover)' }}>
         <div className="container text-center">
-          <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem', color: 'var(--primary)' }}>Contact Us</h2>
-          <p style={{ fontSize: '1.2rem', marginBottom: '3rem', color: 'var(--muted)' }}>We&apos;d love to hear from you!</p>
+          <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem', color: 'var(--primary)' }}>{t('contact.title')}</h2>
+          <p style={{ fontSize: '1.2rem', marginBottom: '3rem', color: 'var(--muted)' }}>{t('contact.subtitle')}</p>
 
           <div className="card" style={{ maxWidth: '600px', margin: '0 auto', padding: '3rem' }}>
             <div style={{ marginBottom: '2rem' }}>
@@ -268,7 +270,7 @@ export default function Home() {
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
               </a>
             </div>
-            <p style={{ marginTop: '1rem', fontSize: '0.9rem', color: 'var(--muted)' }}>Follow us for updates and offers!</p>
+            <p style={{ marginTop: '1rem', fontSize: '0.9rem', color: 'var(--muted)' }}>{t('contact.follow')}</p>
           </div>
         </div>
       </section>
