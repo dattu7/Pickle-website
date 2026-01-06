@@ -43,7 +43,7 @@ export default function LanguageSelector() {
                     backgroundColor: 'white',
                     color: '#333',
                     border: '1px solid #e0e0e0',
-                    padding: '6px 16px',
+                    padding: { xs: '8px', md: '6px 16px' },
                     '&:hover': {
                         backgroundColor: '#f5f5f5',
                         borderColor: '#d0d0d0',
@@ -55,8 +55,12 @@ export default function LanguageSelector() {
                 }}
             >
                 <Globe size={18} className="text-gray-600" />
-                <span className="font-semibold text-sm hidden sm:inline">{currentLang.label.split(' ')[0]}</span>
-                <ChevronDown size={16} className={`transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
+                <Box component="span" sx={{ display: { xs: 'none', md: 'inline' }, fontWeight: 600, fontSize: '0.875rem' }}>
+                    {currentLang.label.split(' ')[0]}
+                </Box>
+                <Box component="span" sx={{ display: { xs: 'none', md: 'flex' } }}>
+                    <ChevronDown size={16} className={`transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
+                </Box>
             </Button>
 
             <Menu
@@ -70,7 +74,7 @@ export default function LanguageSelector() {
                     sx: {
                         overflow: 'visible',
                         filter: 'drop-shadow(0px 4px 20px rgba(0,0,0,0.1))',
-                        mt: 1.5,
+                        mt: 0.5,
                         borderRadius: 3,
                         minWidth: 180,
                         border: '1px solid #f0f0f0',

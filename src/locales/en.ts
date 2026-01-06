@@ -57,7 +57,8 @@ export const en = {
         home: "Home",
         shop: "Shop",
         about: "About",
-        contact: "Contact"
+        contact: "Contact",
+        menu: "Menu"
     },
     shop: {
         title: "Shop Godavari Delights",

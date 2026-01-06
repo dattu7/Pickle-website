@@ -57,7 +57,8 @@ export const hi = {
         home: "होम",
         shop: "दुकान",
         about: "हमारे बारे में",
-        contact: "संपर्क"
+        contact: "संपर्क",
+        menu: "मेनू"
     },
     shop: {
         title: "गोदावरी के स्वाद खरीदें",

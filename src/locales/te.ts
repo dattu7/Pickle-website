@@ -57,7 +57,8 @@ export const te = {
         home: "హోమ్",
         shop: "షాపు",
         about: "మా గురించి",
-        contact: "సంప్రదించండి"
+        contact: "సంప్రదించండి",
+        menu: "మెనూ"
     },
     shop: {
         title: "గోదావరి రుచులను కొనండి",
