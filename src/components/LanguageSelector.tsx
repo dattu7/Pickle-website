@@ -96,9 +96,9 @@ export default function LanguageSelector() {
                             borderRadius: 2,
                             mb: 0.5,
                             '&.Mui-selected': {
-                                backgroundColor: 'rgba(0, 101, 54, 0.08)',
+                                backgroundColor: 'rgba(0, 66, 37, 0.08)',
                                 '&:hover': {
-                                    backgroundColor: 'rgba(0, 101, 54, 0.12)',
+                                    backgroundColor: 'rgba(0, 66, 37, 0.12)',
                                 }
                             },
                             '&:hover': {
@@ -111,7 +111,7 @@ export default function LanguageSelector() {
                             primaryTypographyProps={{ fontSize: 14, fontWeight: 500, color: '#1f2937' }}
                         />
                         {language === lang.code && (
-                            <Check size={16} color="#006536" />
+                            <Check size={16} color="#004225" />
                         )}
                     </MenuItem>
                 ))}

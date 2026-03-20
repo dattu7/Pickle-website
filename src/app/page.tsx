@@ -1,6 +1,7 @@
 'use client';
 
 import Navbar from '@/components/Navbar';
+import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, Star, Leaf, Award, Heart, Truck } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
@@ -171,7 +172,7 @@ export default function Home() {
               <h2 style={{ marginBottom: '0.5rem', color: 'var(--primary)' }}>{t('special.title')}</h2>
               <p>{t('special.subtitle')}</p>
             </div>
-            <Link href="/shop" className="btn btn-outline" style={{ padding: '0.25rem 0.8rem', fontSize: '0.85rem' }}>{t('special.viewAll')}</Link>
+            <Link href="/shop?section=special" className="btn btn-outline" style={{ padding: '0.25rem 0.8rem', fontSize: '0.85rem' }}>{t('special.viewAll')}</Link>
           </div>
 
           <div style={{
@@ -182,11 +183,11 @@ export default function Home() {
             scrollSnapType: 'x mandatory'
           }} className="no-scrollbar">
             {[
-              { name: t('special.items.avakaya'), telugu: "ఆవకాయ", price: 250, rating: 5, reviews: 150, img: "🥭", category: 'Veg' },
-              { name: t('special.items.chicken'), telugu: "కోడి పచ్చడి", price: 450, rating: 5, reviews: 98, img: "🍗", category: 'Non-veg' },
-              { name: t('special.items.gongura'), telugu: "గోంగూర", price: 280, rating: 4, reviews: 112, img: "🍃", category: 'Veg' },
-              { name: t('special.items.ginger'), telugu: "అల్లం పచ్చడి", price: 220, rating: 5, reviews: 80, img: "🫚", category: 'Veg' },
-              { name: t('special.items.prawns'), telugu: "రొయ్యల పచ్చడి", price: 550, rating: 5, reviews: 105, img: "🦐", category: 'Non-veg' }
+              { name: t('special.items.avakaya'), telugu: "ఆవకాయ", price: 250, rating: 5, reviews: 150, image: "/images/mango.png", category: 'Veg' },
+              { name: t('special.items.chicken'), telugu: "కోడి పచ్చడి", price: 450, rating: 5, reviews: 98, image: "/images/chicken.png", category: 'Non-veg' },
+              { name: t('special.items.gongura'), telugu: "గోంగూర", price: 280, rating: 4, reviews: 112, image: "/images/Gongura.png", category: 'Veg' },
+              { name: t('special.items.ginger'), telugu: "అల్లం పచ్చడి", price: 220, rating: 5, reviews: 80, image: "/images/Ginger.png", category: 'Veg' },
+              { name: t('special.items.prawns'), telugu: "రొయ్యల పచ్చడి", price: 550, rating: 5, reviews: 105, image: "/images/prawns.png", category: 'Non-veg' }
             ].map((item, i) => (
               <div key={i} className="card group" style={{
                 minWidth: '280px',
@@ -195,18 +196,16 @@ export default function Home() {
                 flexShrink: 0
               }}>
                 <div style={{
-                  height: '160px',
-                  background: '#fdfcf8',
-                  borderRadius: 'var(--radius)',
+                  height: '200px',
+                  background: '#fff',
+                  borderRadius: '1rem',
                   marginBottom: '0.75rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '4rem',
-                  transition: 'transform 0.3s ease',
-                  border: '1px solid var(--border)',
-                  position: 'relative'
-                }} className="group-hover:scale-[1.02]">
+                  overflow: 'hidden',
+                  position: 'relative',
+                  boxShadow: '0 8px 24px rgba(0,0,0,0.08)',
+                  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                  border: '1px solid rgba(0,0,0,0.05)'
+                }} className="group-hover:scale-[1.02] group-hover:shadow-lg">
                   <span style={{
                     position: 'absolute',
                     top: '8px',
@@ -216,11 +215,40 @@ export default function Home() {
                     padding: '2px 6px',
                     borderRadius: '4px',
                     fontSize: '0.7rem',
-                    fontWeight: 'bold'
+                    fontWeight: 'bold',
+                    zIndex: 2
                   }}>
                     {item.category === 'Veg' ? 'VEG' : 'NON-VEG'}
                   </span>
-                  {item.img}
+
+                  {item.image ? (
+                    <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        fill
+                        style={{ objectFit: 'cover' }}
+                        sizes="(max-width: 768px) 100vw, 280px"
+                      />
+                      <div style={{
+                        position: 'absolute',
+                        bottom: '0',
+                        left: '0',
+                        right: '0',
+                        background: 'linear-gradient(to top, rgba(0,0,0,0.45), rgba(0,0,0,0))',
+                        padding: '0.35rem 0.5rem',
+                        color: 'white',
+                        fontSize: '0.75rem',
+                        fontWeight: '600',
+                        textShadow: '0 1px 2px rgba(0,0,0,0.6)',
+                        zIndex: 2
+                      }}>
+                        {item.name}
+                      </div>
+                    </div>
+                  ) : (
+                    <span style={{ fontSize: '4rem' }}>🥒</span>
+                  )}
                 </div>
                 <div>
                   <h3 style={{ marginBottom: '0.2rem', fontSize: '1.1rem' }}>{item.name}</h3>

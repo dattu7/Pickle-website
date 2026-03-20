@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import LanguageSelector from './LanguageSelector';
 import { useLanguage } from '@/context/LanguageContext';
 import { useState } from 'react';
@@ -93,17 +94,15 @@ export default function Navbar() {
                             background: '#f9f9f9',
                             padding: '1rem'
                         }}>
-                            <img
+                            <div style={{ width: '100%', position: 'relative', minHeight: '300px' }}>
+                            <Image
                                 src="/images/menu-card.jpg"
                                 alt="Godavari Pickles Menu"
-                                style={{
-                                    maxWidth: '100%',
-                                    height: 'auto',
-                                    objectFit: 'contain',
-                                    borderRadius: '0.5rem',
-                                    boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
-                                }}
+                                fill
+                                style={{ objectFit: 'contain', borderRadius: '0.5rem' }}
+                                sizes="(max-width: 768px) 100vw, 80vw"
                             />
+                        </div>
                         </div>
 
                         {/* Footer with Download */}
