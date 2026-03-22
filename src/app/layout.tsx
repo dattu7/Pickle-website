@@ -10,9 +10,9 @@ export const metadata: Metadata = {
   title: "Godavari Pickles",
   description: "Authentic homemade pickles from West Godavari, made with traditional village recipes.",
   icons: {
-    icon: '/logo.jpeg',
-    shortcut: '/logo.jpeg',
-    apple: '/logo.jpeg',
+    icon: '/Round_logo.png',
+    shortcut: '/Round_logo.png',
+    apple: '/Round_logo.png',
   },
 };
 
