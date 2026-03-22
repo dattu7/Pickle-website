@@ -171,6 +171,7 @@ export default function Navbar() {
 
                     {/* Desktop Navigation */}
                     <div className="desktop-nav">
+                        <Link href="/" className="nav-link" style={{ fontSize: '1rem' }}>Home</Link>
                         <Link href="/shop" className="nav-link" style={{ fontSize: '1rem' }}>{t('nav.shop')}</Link>
                         <button
                             onClick={() => setIsMenuOpen(true)}
@@ -214,6 +215,7 @@ export default function Navbar() {
                 </div>
                 <div className="mobile-drawer-content">
                     <LanguageSelector />
+                    <Link href="/" className="mobile-nav-link" onClick={() => setIsMobileNavOpen(false)}>Home</Link>
                     <Link href="/shop" className="mobile-nav-link" onClick={() => setIsMobileNavOpen(false)}>{t('nav.shop')}</Link>
                     <button
                         onClick={() => { setIsMobileNavOpen(false); setIsMenuOpen(true); }}
