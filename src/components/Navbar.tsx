@@ -4,41 +4,199 @@ import Link from 'next/link';
 import Image from 'next/image';
 import LanguageSelector from './LanguageSelector';
 import { useLanguage } from '@/context/LanguageContext';
-import { useState } from 'react';
-import { Download } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Download, Menu as MenuIcon, X } from 'lucide-react';
 
 export default function Navbar() {
     const { t } = useLanguage();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+
+    // Prevent scrolling when mobile nav is open
+    useEffect(() => {
+        if (isMobileNavOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+        return () => { document.body.style.overflow = 'auto'; };
+    }, [isMobileNavOpen]);
 
     return (
         <>
+            <style>{`
+                .desktop-nav {
+                    display: flex;
+                    align-items: center;
+                    gap: 1.5rem;
+                }
+                .mobile-toggle-btn {
+                    display: none;
+                    background: none;
+                    border: none;
+                    color: white;
+                    cursor: pointer;
+                    z-index: 50;
+                }
+                .mobile-nav-backdrop {
+                    display: none;
+                }
+                .mobile-nav-drawer {
+                    display: none;
+                }
+                
+                @media (max-width: 850px) {
+                    .desktop-nav {
+                        display: none !important;
+                    }
+                    .mobile-toggle-btn {
+                        display: block;
+                    }
+                    .mobile-nav-backdrop {
+                        display: block;
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100vw;
+                        height: 100vh;
+                        background: rgba(0, 0, 0, 0.5);
+                        backdrop-filter: blur(3px);
+                        z-index: 60;
+                        opacity: 0;
+                        visibility: hidden;
+                        transition: all 0.3s ease;
+                    }
+                    .mobile-nav-backdrop.open {
+                        opacity: 1;
+                        visibility: visible;
+                    }
+                    .mobile-nav-drawer {
+                        display: flex;
+                        flex-direction: column;
+                        position: fixed;
+                        top: 0;
+                        right: 0;
+                        width: 70vw;
+                        max-width: 320px;
+                        height: 100vh;
+                        background: #003d22; /* Deep elegant green */
+                        box-shadow: -10px 0 40px rgba(0,0,0,0.5);
+                        z-index: 70;
+                        transform: translateX(100%);
+                        transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+                        overflow-y: auto;
+                    }
+                    .mobile-nav-drawer.open {
+                        transform: translateX(0);
+                    }
+                    .mobile-drawer-header {
+                        display: flex;
+                        justify-content: flex-end;
+                        padding: 1.5rem;
+                        border-bottom: 1px solid rgba(255,255,255,0.1);
+                    }
+                    .mobile-drawer-content {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: flex-start;
+                        align-items: flex-start;
+                        padding: 2.5rem 2rem;
+                        gap: 2.2rem;
+                    }
+                    .mobile-nav-link {
+                        font-size: 1.3rem;
+                        font-weight: 500;
+                        color: white !important;
+                        text-decoration: none;
+                        transition: color 0.2s;
+                        letter-spacing: 0.5px;
+                    }
+                    .mobile-nav-link:hover {
+                        color: var(--secondary) !important;
+                    }
+                }
+            `}</style>
             <nav className="navbar" style={{ padding: 0 }}>
                 <div style={{ background: 'black', color: 'white', textAlign: 'center', padding: '0.5rem', fontSize: '0.9rem', fontWeight: '500' }}>
                     🚚 {t('hero.shipping')}
                 </div>
-                <div className="container flex justify-between items-center" style={{ padding: '1rem' }}>
-                    <Link href="/" className="flex items-center gap-2">
-                        <span style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'var(--secondary)', textDecoration: 'underline' }}>
+                <div className="container flex justify-between items-center" style={{ padding: '1rem', position: 'relative' }}>
+                    <Link href="/" className="flex items-center gap-2" style={{ zIndex: 50, textDecoration: 'none' }} onClick={() => setIsMobileNavOpen(false)}>
+                        <Image 
+                            src="/Round_logo.png" 
+                            alt="Godavari Pickles Logo" 
+                            width={44} 
+                            height={44} 
+                            style={{ 
+                                borderRadius: '50%', 
+                                objectFit: 'cover', 
+                                backgroundColor: 'white',
+                                boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                                border: '2px solid #f0fdf4'
+                            }} 
+                        />
+                        <span style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'var(--secondary)', textDecoration: 'underline', textDecorationColor: 'var(--secondary)', textUnderlineOffset: '4px', marginLeft: '4px' }}>
                             {t('hero.title')}
                         </span>
                     </Link>
 
-                    <div className="flex items-center gap-2 md:gap-4">
-                        <Link href="/shop" className="nav-link">{t('nav.shop')}</Link>
+                    {/* Desktop Navigation */}
+                    <div className="desktop-nav">
+                        <Link href="/shop" className="nav-link" style={{ fontSize: '1rem' }}>{t('nav.shop')}</Link>
                         <button
                             onClick={() => setIsMenuOpen(true)}
                             className="nav-link"
-                            style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.9rem' }}
+                            style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1rem' }}
                         >
                             {t('nav.menu')}
                         </button>
-                        <Link href="/#about" className="nav-link">{t('nav.about')}</Link>
-                        <Link href="/#contact" className="nav-link">{t('nav.contact')}</Link>
+                        <Link href="/#about" className="nav-link" style={{ fontSize: '1rem' }}>{t('nav.about')}</Link>
+                        <Link href="/#contact" className="nav-link" style={{ fontSize: '1rem' }}>{t('nav.contact')}</Link>
                         <LanguageSelector />
                     </div>
+
+                    {/* Mobile Toggle Button */}
+                    <button 
+                        className="mobile-toggle-btn"
+                        onClick={() => setIsMobileNavOpen(true)}
+                        aria-label="Open navigation menu"
+                    >
+                        <MenuIcon size={28} />
+                    </button>
                 </div>
             </nav>
+
+            {/* Mobile Navigation Backdrop */}
+            <div 
+                className={`mobile-nav-backdrop ${isMobileNavOpen ? 'open' : ''}`}
+                onClick={() => setIsMobileNavOpen(false)}
+            />
+
+            {/* Mobile Navigation Side Drawer */}
+            <div className={`mobile-nav-drawer ${isMobileNavOpen ? 'open' : ''}`}>
+                <div className="mobile-drawer-header">
+                    <button 
+                        onClick={() => setIsMobileNavOpen(false)}
+                        aria-label="Close navigation menu"
+                        style={{ background: 'rgba(255,255,255,0.1)', border: 'none', color: 'white', cursor: 'pointer', borderRadius: '50%', padding: '0.4rem', display: 'flex' }}
+                    >
+                        <X size={24} />
+                    </button>
+                </div>
+                <div className="mobile-drawer-content">
+                    <LanguageSelector />
+                    <Link href="/shop" className="mobile-nav-link" onClick={() => setIsMobileNavOpen(false)}>{t('nav.shop')}</Link>
+                    <button
+                        onClick={() => { setIsMobileNavOpen(false); setIsMenuOpen(true); }}
+                        className="mobile-nav-link"
+                        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+                    >
+                        {t('nav.menu')}
+                    </button>
+                    <Link href="/#about" className="mobile-nav-link" onClick={() => setIsMobileNavOpen(false)}>{t('nav.about')}</Link>
+                    <Link href="/#contact" className="mobile-nav-link" onClick={() => setIsMobileNavOpen(false)}>{t('nav.contact')}</Link>
+                </div>
+            </div>
 
             {/* Menu Modal */}
             {isMenuOpen && (

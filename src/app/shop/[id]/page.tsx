@@ -55,7 +55,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
 
     const rating = 5;
     const reviews = product.category === 'Veg' ? 112 : product.category === 'Non-veg' ? 98 : 74;
-    const whatsappText = encodeURIComponent(`Hi! I want to buy ${product.name} for ₹${product.price}. Please share details.`);
+    const whatsappText = encodeURIComponent(`Hi! I want to buy ${product.name}. Please share details.`);
     const categoryBadgeColor = product.category === 'Non-veg' ? '#f44336' : product.category === 'Podi' ? '#ed6c02' : '#4caf50';
     const categoryLabel = product.category === 'Non-veg' ? 'NON-VEG' : product.category === 'Podi' ? 'PODI' : 'VEG';
 
@@ -139,9 +139,28 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                             <span style={{ color: 'var(--muted)' }}>({reviews} reviews)</span>
                         </div>
 
-                        <p style={{ fontSize: '2.25rem', fontWeight: 800, color: 'var(--primary)', marginBottom: '1.4rem' }}>
-                            ₹{product.price}
-                        </p>
+                        <div style={{ 
+                            marginBottom: '1.5rem', 
+                            background: '#f8fafc', 
+                            padding: '1.25rem', 
+                            borderRadius: '1rem', 
+                            border: '1px solid #e2e8f0' 
+                        }}>
+                            <p style={{ fontSize: '1rem', color: '#64748b', marginBottom: '0.75rem', fontWeight: 600 }}>Available Quantities:</p>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: product.category === 'Podi' ? '0' : '10px' }}>
+                                <span style={{ fontSize: '1.1rem', color: '#475569', fontWeight: '600' }}>
+                                    {product.category === 'Podi' ? '250g' : '500g'} 
+                                    {product.category === 'Podi' ? <span style={{ fontSize: '0.85rem' }}> (1/4 kg)</span> : <span style={{ fontSize: '0.85rem' }}> (1/2 kg)</span>}
+                                </span>
+                                <span style={{ fontWeight: '800', fontSize: '1.6rem', color: 'var(--primary)' }}>₹{product.price}</span>
+                            </div>
+                            {product.category !== 'Podi' && (
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '2px dashed #cbd5e1', paddingTop: '10px' }}>
+                                    <span style={{ fontSize: '1.1rem', color: '#475569', fontWeight: '600' }}>1kg</span>
+                                    <span style={{ fontWeight: '800', fontSize: '1.6rem', color: 'var(--primary)' }}>₹{product.price * 2}</span>
+                                </div>
+                            )}
+                        </div>
 
                         <p style={{ marginBottom: '1.5rem', lineHeight: 1.7, fontSize: '1.08rem' }}>
                             {product.description}
