@@ -125,19 +125,9 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                             <span style={{ border: '1px solid var(--border)', borderRadius: '999px', padding: '0.3rem 0.7rem', fontSize: '0.8rem', color: 'var(--muted)', fontWeight: 600 }}>
                                 {product.type}
                             </span>
-                            <span style={{ border: '1px solid var(--border)', borderRadius: '999px', padding: '0.3rem 0.7rem', fontSize: '0.8rem', color: 'var(--muted)', fontWeight: 600 }}>
-                                In stock: {product.stock}
-                            </span>
                         </div>
 
-                        <h1 style={{ marginBottom: '0.6rem', fontSize: '3rem', lineHeight: 1.05 }}>{product.name}</h1>
-
-                        <div className="flex items-center gap-2" style={{ marginBottom: '1.35rem' }}>
-                            <div className="flex" style={{ color: 'var(--secondary)' }}>
-                                {[...Array(rating)].map((_, i) => <Star key={i} size={20} fill="currentColor" />)}
-                            </div>
-                            <span style={{ color: 'var(--muted)' }}>({reviews} reviews)</span>
-                        </div>
+                        <h1 style={{ marginBottom: '1.2rem', fontSize: '3rem', lineHeight: 1.05 }}>{product.name}</h1>
 
                         <div style={{ 
                             marginBottom: '1.5rem', 

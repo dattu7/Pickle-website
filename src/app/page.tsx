@@ -254,13 +254,7 @@ export default function Home() {
                 </div>
                 <div>
                   <h3 style={{ marginBottom: '0.2rem', fontSize: '1.1rem', color: 'var(--foreground)' }}>{item.name}</h3>
-                  <p style={{ fontSize: '0.9rem', color: 'var(--primary)', fontWeight: '600', marginBottom: '0.2rem' }}>{item.telugu}</p>
-                </div>
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="flex" style={{ color: 'var(--secondary)' }}>
-                    {[...Array(item.rating)].map((_, j) => <Star key={j} size={14} fill="currentColor" />)}
-                  </div>
-                  <span style={{ fontSize: '0.8rem', color: 'var(--muted)' }}>({item.reviews} reviews)</span>
+                  <p style={{ fontSize: '0.9rem', color: 'var(--primary)', fontWeight: '600', marginBottom: '1rem' }}>{item.telugu}</p>
                 </div>
                 <div style={{ 
                     background: '#f8fafc', 
