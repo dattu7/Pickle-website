@@ -115,25 +115,54 @@ export default function Navbar() {
                         color: var(--secondary) !important;
                     }
                 }
+
+                @keyframes marqueeScroll {
+                    0% { transform: translateX(100vw); }
+                    100% { transform: translateX(-100%); }
+                }
+
+                .marquee-container {
+                    width: 100%;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    background: black;
+                    color: white;
+                    padding: 0.5rem 0;
+                    font-size: 0.95rem;
+                    font-weight: 500;
+                    letter-spacing: 0.5px;
+                }
+
+                .marquee-content {
+                    display: inline-block;
+                    animation: marqueeScroll 30s linear infinite;
+                    padding-right: 2rem;
+                }
+                
+                .marquee-container:hover .marquee-content {
+                    animation-play-state: paused;
+                }
             `}</style>
             <nav className="navbar" style={{ padding: 0 }}>
-                <div style={{ background: 'black', color: 'white', textAlign: 'center', padding: '0.5rem', fontSize: '0.9rem', fontWeight: '500' }}>
-                    🚚 {t('hero.shipping')}
+                <div className="marquee-container">
+                    <div className="marquee-content">
+                        🚚 Shipping All Over India 🇮🇳 &nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp; ✈️ Premium Leak-Proof Packaging Available For International Export
+                    </div>
                 </div>
                 <div className="container flex justify-between items-center" style={{ padding: '1rem', position: 'relative' }}>
                     <Link href="/" className="flex items-center gap-2" style={{ zIndex: 50, textDecoration: 'none' }} onClick={() => setIsMobileNavOpen(false)}>
-                        <Image 
-                            src="/Round_logo.png" 
-                            alt="Godavari Pickles Logo" 
-                            width={44} 
-                            height={44} 
-                            style={{ 
-                                borderRadius: '50%', 
-                                objectFit: 'cover', 
+                        <Image
+                            src="/Round_logo.png"
+                            alt="Godavari Pickles Logo"
+                            width={44}
+                            height={44}
+                            style={{
+                                borderRadius: '50%',
+                                objectFit: 'cover',
                                 backgroundColor: 'white',
                                 boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
                                 border: '2px solid #f0fdf4'
-                            }} 
+                            }}
                         />
                         <span style={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'var(--secondary)', textDecoration: 'underline', textDecorationColor: 'var(--secondary)', textUnderlineOffset: '4px', marginLeft: '4px' }}>
                             {t('hero.title')}
@@ -156,7 +185,7 @@ export default function Navbar() {
                     </div>
 
                     {/* Mobile Toggle Button */}
-                    <button 
+                    <button
                         className="mobile-toggle-btn"
                         onClick={() => setIsMobileNavOpen(true)}
                         aria-label="Open navigation menu"
@@ -167,7 +196,7 @@ export default function Navbar() {
             </nav>
 
             {/* Mobile Navigation Backdrop */}
-            <div 
+            <div
                 className={`mobile-nav-backdrop ${isMobileNavOpen ? 'open' : ''}`}
                 onClick={() => setIsMobileNavOpen(false)}
             />
@@ -175,7 +204,7 @@ export default function Navbar() {
             {/* Mobile Navigation Side Drawer */}
             <div className={`mobile-nav-drawer ${isMobileNavOpen ? 'open' : ''}`}>
                 <div className="mobile-drawer-header">
-                    <button 
+                    <button
                         onClick={() => setIsMobileNavOpen(false)}
                         aria-label="Close navigation menu"
                         style={{ background: 'rgba(255,255,255,0.1)', border: 'none', color: 'white', cursor: 'pointer', borderRadius: '50%', padding: '0.4rem', display: 'flex' }}
@@ -253,14 +282,14 @@ export default function Navbar() {
                             padding: '1rem'
                         }}>
                             <div style={{ width: '100%', position: 'relative', minHeight: '300px' }}>
-                            <Image
-                                src="/images/menu-card.jpg"
-                                alt="Godavari Pickles Menu"
-                                fill
-                                style={{ objectFit: 'contain', borderRadius: '0.5rem' }}
-                                sizes="(max-width: 768px) 100vw, 80vw"
-                            />
-                        </div>
+                                <Image
+                                    src="/images/menu-card.jpg"
+                                    alt="Godavari Pickles Menu"
+                                    fill
+                                    style={{ objectFit: 'contain', borderRadius: '0.5rem' }}
+                                    sizes="(max-width: 768px) 100vw, 80vw"
+                                />
+                            </div>
                         </div>
 
                         {/* Footer with Download */}
