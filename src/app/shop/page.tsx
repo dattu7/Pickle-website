@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
-import { Star } from 'lucide-react';
+import { Star, Share2 } from 'lucide-react';
 
 export default function ShopPage() {
     const { t } = useLanguage();
@@ -95,10 +95,48 @@ export default function ShopPage() {
                                                 color: 'white',
                                                 fontSize: '0.9rem',
                                                 fontWeight: '600',
-                                                zIndex: 2
+                                                zIndex: 2,
+                                                pointerEvents: 'none'
                                             }}>
                                                 {product.name}
                                             </div>
+                                            <button
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                    if (typeof navigator !== 'undefined' && navigator.share) {
+                                                        navigator.share({
+                                                            title: product.name,
+                                                            text: t('special.shareText').replace('{item}', product.name),
+                                                            url: window.location.origin + `/shop/${product.id}`,
+                                                        }).catch(() => {});
+                                                    } else {
+                                                        navigator.clipboard.writeText(window.location.origin + `/shop/${product.id}`);
+                                                        alert(t('special.copied'));
+                                                    }
+                                                }}
+                                                style={{
+                                                    position: 'absolute',
+                                                    bottom: '10px',
+                                                    right: '10px',
+                                                    background: 'rgba(255, 255, 255, 0.9)',
+                                                    backdropFilter: 'blur(4px)',
+                                                    padding: '8px',
+                                                    borderRadius: '50%',
+                                                    zIndex: 10,
+                                                    boxShadow: '0 4px 10px rgba(0,0,0,0.3)',
+                                                    color: 'var(--primary)',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    border: 'none',
+                                                    cursor: 'pointer'
+                                                }}
+                                                className="mobile-share-btn"
+                                                aria-label="Share product"
+                                            >
+                                                <Share2 size={18} />
+                                            </button>
                                         </>
                                     ) : (
                                         <span style={{ fontSize: '3rem', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
@@ -214,10 +252,48 @@ export default function ShopPage() {
                                                 color: 'white',
                                                 fontSize: '0.9rem',
                                                 fontWeight: '600',
-                                                zIndex: 2
+                                                zIndex: 2,
+                                                pointerEvents: 'none'
                                             }}>
                                                 {item.name}
                                             </div>
+                                            <button
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                    if (typeof navigator !== 'undefined' && navigator.share) {
+                                                        navigator.share({
+                                                            title: item.name,
+                                                            text: t('special.shareText').replace('{item}', item.name),
+                                                            url: window.location.origin + `/shop/${item.id}`,
+                                                        }).catch(() => {});
+                                                    } else {
+                                                        navigator.clipboard.writeText(window.location.origin + `/shop/${item.id}`);
+                                                        alert(t('special.copied'));
+                                                    }
+                                                }}
+                                                style={{
+                                                    position: 'absolute',
+                                                    bottom: '10px',
+                                                    right: '10px',
+                                                    background: 'rgba(255, 255, 255, 0.9)',
+                                                    backdropFilter: 'blur(4px)',
+                                                    padding: '8px',
+                                                    borderRadius: '50%',
+                                                    zIndex: 10,
+                                                    boxShadow: '0 4px 10px rgba(0,0,0,0.3)',
+                                                    color: 'var(--primary)',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    border: 'none',
+                                                    cursor: 'pointer'
+                                                }}
+                                                className="mobile-share-btn"
+                                                aria-label="Share product"
+                                            >
+                                                <Share2 size={18} />
+                                            </button>
                                         </div>
                                     </div>
                                     <div>
