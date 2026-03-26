@@ -49,6 +49,33 @@ body {
 
 html {
   color-scheme: light;
+  scroll-behavior: smooth;
+}
+
+/* Premium Text Selection */
+::selection {
+  background-color: var(--primary);
+  color: #ffffff;
+}
+::-moz-selection {
+  background-color: var(--primary);
+  color: #ffffff;
+}
+
+/* Custom Premium Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--surface-hover);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary);
 }
 
 body {
@@ -117,8 +144,9 @@ body {
 }
 
 .card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(0, 66, 37, 0.15), 0 10px 10px -5px rgba(0, 66, 37, 0.05);
+  border-color: rgba(0, 66, 37, 0.2);
 }
 
 .input {
