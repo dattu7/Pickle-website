@@ -11,7 +11,6 @@ export default function Navbar() {
     const { t } = useLanguage();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
-    const [scrolled, setScrolled] = useState(false);
     const [touchStartX, setTouchStartX] = useState<number | null>(null);
 
     // Prevent scrolling when mobile nav is open
@@ -40,15 +39,6 @@ export default function Navbar() {
             setTouchStartX(null);
         }
     };
-
-    // Handle scroll shrinking header
-    useEffect(() => {
-        const handleScroll = () => {
-            setScrolled(window.scrollY > 10);
-        };
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
 
     return (
         <>
@@ -177,36 +167,17 @@ export default function Navbar() {
                 
                 }
 
-                /* Scroll Shrink Navbar Effects */
-                .navbar {
-                    transition: padding 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
-                }
-                .marquee-container {
-                    transition: all 0.3s ease;
-                    transform-origin: top;
-                }
-                .navbar.scrolled .marquee-container {
-                    height: 0;
-                    padding: 0;
-                    opacity: 0;
-                    overflow: hidden;
-                }
-                .navbar.scrolled .nav-container {
-                    padding: 0.5rem 1rem !important;
-                }
-                @media (max-width: 850px) {
-                    .navbar.scrolled .nav-container {
-                        padding: 0.8rem 1rem !important;
-                    }
+                .marquee-container:hover .marquee-content {
+                    animation-play-state: paused;
                 }
             `}</style>
-            <nav className={`navbar ${scrolled ? 'scrolled' : ''}`} style={{ padding: 0 }}>
-                <div className="marquee-container" style={{ height: scrolled ? '0px' : 'auto' }}>
+            <nav className="navbar" style={{ padding: 0 }}>
+                <div className="marquee-container">
                     <div className="marquee-content">
                         {t('nav.marquee')}
                     </div>
                 </div>
-                <div className="container nav-container flex justify-between items-center" style={{ padding: '1rem', position: 'relative', transition: 'padding 0.3s ease' }}>
+                <div className="container flex justify-between items-center" style={{ padding: '1rem', position: 'relative' }}>
                     <Link href="/" className="flex items-center gap-2" style={{ zIndex: 50, textDecoration: 'none' }} onClick={() => setIsMobileNavOpen(false)}>
                         <Image
                             src="/Round_logo.png"
