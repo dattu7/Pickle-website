@@ -3,7 +3,7 @@
 import Navbar from '@/components/Navbar';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Star, Leaf, Award, Heart, Truck } from 'lucide-react';
+import { ArrowRight, Star, Leaf, Award, Heart, Truck, Share2 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
 export default function Home() {
@@ -24,9 +24,9 @@ export default function Home() {
         justifyContent: 'center',
         flexDirection: 'column'
       }}>
-        <div className="container animate-fade-in">
+        <div className="container animate-fade-in" style={{ padding: '0 10px' }}>
           <h1 style={{
-            fontSize: '4rem',
+            fontSize: 'clamp(2.5rem, 10vw, 4rem)',
             marginBottom: '1rem',
             textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
             color: '#ffffff',
@@ -35,7 +35,7 @@ export default function Home() {
             {t('hero.title')}
           </h1>
           <h2 style={{
-            fontSize: '2rem',
+            fontSize: 'clamp(1.4rem, 6vw, 2rem)',
             marginBottom: '2rem',
             color: 'var(--secondary)',
             fontWeight: '400'
@@ -43,7 +43,7 @@ export default function Home() {
             {t('hero.subtitle')}
           </h2>
           <p style={{
-            fontSize: '1.25rem',
+            fontSize: 'clamp(1rem, 5vw, 1.25rem)',
             maxWidth: '700px',
             margin: '0 auto 2.5rem',
             color: '#f0f0f0',
@@ -59,8 +59,8 @@ export default function Home() {
               <Truck size={20} /> {t('hero.shipping')}
             </span>
           </div>
-          <div className="flex justify-center gap-4 flex-wrap">
-            <Link href="/shop" className="btn btn-primary" style={{ padding: '1rem 2.5rem', fontSize: '1.2rem' }}>
+          <div className="flex justify-center gap-4 flex-wrap hero-buttons" style={{ maxWidth: '500px', margin: '0 auto' }}>
+            <Link href="/shop" className="btn btn-primary btn-pulse" style={{ padding: '1rem 2.5rem', fontSize: '1.2rem' }}>
               {t('hero.orderNow')} <ArrowRight size={24} />
             </Link>
             <button className="btn" style={{
@@ -153,7 +153,7 @@ export default function Home() {
                   margin: '0 auto 1.5rem',
                   color: feature.color,
                   boxShadow: `0 4px 10px ${feature.color}30`
-                }}>
+                }} className="floating-icon">
                   {feature.icon}
                 </div>
                 <h3 style={{ marginBottom: '0.75rem', fontSize: '1.25rem', fontWeight: '800', color: 'var(--foreground)' }}>{feature.title}</h3>
@@ -243,10 +243,50 @@ export default function Home() {
                         color: 'white',
                         fontSize: '0.9rem',
                         fontWeight: '600',
-                        zIndex: 2
+                        zIndex: 2,
+                        pointerEvents: 'none'
                       }}>
                         {item.name}
                       </div>
+
+                      {/* Native Mobile Share Button */}
+                      <button
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            if (typeof navigator !== 'undefined' && navigator.share) {
+                                navigator.share({
+                                    title: item.name,
+                                    text: `Check out this delicious ${item.name} from Godavari Pickles!`,
+                                    url: window.location.origin + `/shop/${item.id}`,
+                                }).catch(() => {});
+                            } else {
+                                navigator.clipboard.writeText(window.location.origin + `/shop/${item.id}`);
+                                alert('Product link copied to clipboard!');
+                            }
+                        }}
+                        style={{
+                            position: 'absolute',
+                            bottom: '10px',
+                            right: '10px',
+                            background: 'rgba(255, 255, 255, 0.9)',
+                            backdropFilter: 'blur(4px)',
+                            padding: '8px',
+                            borderRadius: '50%',
+                            zIndex: 10,
+                            boxShadow: '0 4px 10px rgba(0,0,0,0.3)',
+                            color: 'var(--primary)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            border: 'none',
+                            cursor: 'pointer'
+                        }}
+                        className="mobile-share-btn"
+                        aria-label="Share product"
+                    >
+                        <Share2 size={18} />
+                    </button>
                     </div>
                   ) : (
                     <span style={{ fontSize: '4rem' }}>🥒</span>

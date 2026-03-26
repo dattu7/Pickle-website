@@ -12,6 +12,7 @@ export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+    const [touchStartX, setTouchStartX] = useState<number | null>(null);
 
     // Prevent scrolling when mobile nav is open
     useEffect(() => {
@@ -22,6 +23,23 @@ export default function Navbar() {
         }
         return () => { document.body.style.overflow = 'auto'; };
     }, [isMobileNavOpen]);
+
+    // Handle Swipe to Close Menu Drawer
+    const handleTouchStart = (e: React.TouchEvent) => {
+        setTouchStartX(e.targetTouches[0].clientX);
+    };
+
+    const handleTouchMove = (e: React.TouchEvent) => {
+        if (!touchStartX) return;
+        const currentTouchX = e.targetTouches[0].clientX;
+        const diffX = currentTouchX - touchStartX;
+        
+        // If the user swipes Right by more than 75px, close the drawer
+        if (diffX > 75) {
+            setIsMobileNavOpen(false);
+            setTouchStartX(null);
+        }
+    };
 
     // Handle scroll shrinking header
     useEffect(() => {
@@ -242,7 +260,11 @@ export default function Navbar() {
             />
 
             {/* Mobile Navigation Side Drawer */}
-            <div className={`mobile-nav-drawer ${isMobileNavOpen ? 'open' : ''}`}>
+            <div 
+                className={`mobile-nav-drawer ${isMobileNavOpen ? 'open' : ''}`}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+            >
                 <div className="mobile-drawer-header">
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                         <Image
