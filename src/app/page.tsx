@@ -5,9 +5,19 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, Star, Leaf, Award, Heart, Truck, Share2 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
+import { useState } from 'react';
 
 export default function Home() {
   const { t } = useLanguage();
+  const [doubleTapItem, setDoubleTapItem] = useState<string | null>(null);
+
+  const handleDoubleTap = (id: string, e: React.MouseEvent) => {
+      e.preventDefault();
+      setDoubleTapItem(id);
+      setTimeout(() => setDoubleTapItem(null), 1000);
+      
+      if (typeof window !== 'undefined' && navigator.vibrate) navigator.vibrate([50, 50, 50]);
+  };
 
   return (
     <main>
@@ -225,7 +235,21 @@ export default function Home() {
                   </span>
 
                   {item.image ? (
-                    <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+                    <div 
+                        style={{ width: '100%', height: '100%', position: 'relative' }}
+                        onDoubleClick={(e) => handleDoubleTap(item.id, e)}
+                    >
+                      <div style={{
+                             position: 'absolute',
+                             top: 0, left: 0, right: 0, bottom: 0,
+                             display: 'flex', alignItems: 'center', justifyContent: 'center',
+                             zIndex: 5, pointerEvents: 'none',
+                             opacity: doubleTapItem === item.id ? 1 : 0,
+                             transform: doubleTapItem === item.id ? 'scale(1)' : 'scale(0.5)',
+                             transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+                         }}>
+                             <Heart size={80} color="white" fill="#ef4444" style={{ filter: 'drop-shadow(0 10px 15px rgba(0,0,0,0.3))' }} />
+                      </div>
                       <Image
                         src={item.image}
                         alt={item.name}

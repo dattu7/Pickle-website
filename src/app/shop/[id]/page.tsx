@@ -60,7 +60,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
     const categoryLabel = product.category === 'Non-veg' ? 'NON-VEG' : product.category === 'Podi' ? 'PODI' : 'VEG';
 
     return (
-        <main>
+        <main className="product-main-container">
             <Navbar />
             <div className="container" style={{ padding: '2rem 1rem' }}>
                 <Link href="/shop" className="flex items-center gap-2 mb-4" style={{ color: 'var(--muted)' }}>
@@ -169,7 +169,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                         </div>
 
                         <button
-                            className="btn btn-primary w-full"
+                            className="btn btn-primary w-full desktop-order-btn"
                             style={{ fontSize: '1.1rem', padding: '0.9rem 1.25rem', marginTop: 'auto' }}
                             onClick={() => window.open(`https://wa.me/9014475499?text=${whatsappText}`, '_blank')}
                         >
@@ -177,6 +177,49 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                         </button>
                     </div>
                 </div>
+            </div>
+
+            {/* Mobile Sticky Bottom Order Bar */}
+            <style>{`
+                @media (min-width: 851px) {
+                    .mobile-sticky-order {
+                        display: none !important;
+                    }
+                }
+                .mobile-sticky-order {
+                    position: fixed;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    background: rgba(255,255,255,0.95);
+                    backdrop-filter: blur(10px);
+                    padding: 1rem 1.5rem;
+                    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+                    box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    z-index: 100;
+                    border-top: 1px solid #f1f5f9;
+                }
+                @media (max-width: 850px) {
+                    .desktop-order-btn { display: none !important; }
+                    .product-main-container { padding-bottom: 7rem !important; }
+                }
+            `}</style>
+            
+            <div className="mobile-sticky-order">
+                <div>
+                    <p style={{ margin: 0, fontSize: '0.8rem', color: '#64748b', fontWeight: 600 }}>Starting from</p>
+                    <p style={{ margin: 0, fontSize: '1.25rem', color: 'var(--primary)', fontWeight: 800 }}>₹{product.price}</p>
+                </div>
+                <button
+                    className="btn btn-primary btn-pulse"
+                    style={{ borderRadius: '50px', padding: '0.8rem 1.5rem', boxShadow: '0 4px 15px rgba(0, 61, 34, 0.3)' }}
+                    onClick={() => window.open(`https://wa.me/9014475499?text=${whatsappText}`, '_blank')}
+                >
+                    <MessageCircle size={20} /> Order Now
+                </button>
             </div>
         </main>
     );
