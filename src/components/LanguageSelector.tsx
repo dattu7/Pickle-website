@@ -86,20 +86,27 @@ export default function LanguageSelector() {
             </button>
 
             {open && (
-                <div style={{
-                    position: 'absolute',
-                    right: 0,
-                    top: 'calc(100% + 10px)',
-                    width: '210px',
-                    backgroundColor: '#ffffff',
-                    borderRadius: '16px',
-                    boxShadow: '0 10px 30px rgba(0,0,0,0.12)',
-                    border: '1px solid #f3f4f6',
-                    overflow: 'hidden',
-                    zIndex: 1000,
-                    animation: 'fadeInSlide 0.2s ease-out forwards',
-                }}>
+                <div className="lang-dropdown">
                     <style>{`
+                        .lang-dropdown {
+                            position: absolute;
+                            right: 0;
+                            top: calc(100% + 10px);
+                            width: 210px;
+                            background-color: #ffffff;
+                            border-radius: 16px;
+                            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+                            border: 1px solid #f3f4f6;
+                            overflow: hidden;
+                            z-index: 1000;
+                            animation: fadeInSlide 0.2s ease-out forwards;
+                        }
+                        @media (max-width: 850px) {
+                            .lang-dropdown {
+                                right: auto;
+                                left: 0;
+                            }
+                        }
                         @keyframes fadeInSlide {
                             from { opacity: 0; transform: translateY(-10px) scale(0.95); }
                             to { opacity: 1; transform: translateY(0) scale(1); }

@@ -5,7 +5,7 @@ import Image from 'next/image';
 import LanguageSelector from './LanguageSelector';
 import { useLanguage } from '@/context/LanguageContext';
 import { useState, useEffect } from 'react';
-import { Download, Menu as MenuIcon, X } from 'lucide-react';
+import { Download, Menu as MenuIcon, X, FileText } from 'lucide-react';
 
 export default function Navbar() {
     const { t } = useLanguage();
@@ -76,14 +76,16 @@ export default function Navbar() {
                         position: fixed;
                         top: 0;
                         right: 0;
-                        width: 70vw;
-                        max-width: 320px;
+                        width: 80vw;
+                        max-width: 380px;
                         height: 100vh;
-                        background: #003d22; /* Deep elegant green */
-                        box-shadow: -10px 0 40px rgba(0,0,0,0.5);
+                        background: rgba(0, 61, 34, 0.98);
+                        backdrop-filter: blur(12px);
+                        border-left: 1px solid rgba(255, 255, 255, 0.05);
+                        box-shadow: -15px 0 50px rgba(0,0,0,0.6);
                         z-index: 70;
                         transform: translateX(100%);
-                        transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+                        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
                         overflow-y: auto;
                     }
                     .mobile-nav-drawer.open {
@@ -91,28 +93,34 @@ export default function Navbar() {
                     }
                     .mobile-drawer-header {
                         display: flex;
-                        justify-content: flex-end;
+                        justify-content: space-between;
+                        align-items: center;
                         padding: 1.5rem;
-                        border-bottom: 1px solid rgba(255,255,255,0.1);
+                        border-bottom: 1px solid rgba(255,255,255,0.08);
                     }
                     .mobile-drawer-content {
                         display: flex;
                         flex-direction: column;
-                        justify-content: flex-start;
-                        align-items: flex-start;
-                        padding: 2.5rem 2rem;
-                        gap: 2.2rem;
+                        padding: 1.5rem 1rem;
+                        gap: 0.5rem;
                     }
                     .mobile-nav-link {
-                        font-size: 1.3rem;
+                        font-size: 1.25rem;
                         font-weight: 500;
-                        color: white !important;
+                        color: rgba(255, 255, 255, 0.9) !important;
                         text-decoration: none;
-                        transition: color 0.2s;
+                        padding: 1rem 1.2rem;
+                        border-radius: 12px;
+                        transition: all 0.2s ease;
                         letter-spacing: 0.5px;
+                        display: flex;
+                        align-items: center;
+                        width: 100%;
                     }
-                    .mobile-nav-link:hover {
-                        color: var(--secondary) !important;
+                    .mobile-nav-link:hover, .mobile-nav-link:active {
+                        background: rgba(255, 255, 255, 0.1);
+                        color: white !important;
+                        transform: translateX(6px);
                     }
                 }
 
@@ -205,22 +213,44 @@ export default function Navbar() {
             {/* Mobile Navigation Side Drawer */}
             <div className={`mobile-nav-drawer ${isMobileNavOpen ? 'open' : ''}`}>
                 <div className="mobile-drawer-header">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <Image
+                            src="/Round_logo.png"
+                            alt="Godavari Pickles Logo"
+                            width={44}
+                            height={44}
+                            style={{
+                                borderRadius: '50%',
+                                backgroundColor: 'white',
+                                padding: '2px',
+                                boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                                border: '1px solid #f0fdf4'
+                            }}
+                        />
+                        <span style={{ color: 'white', fontWeight: 'bold', fontSize: '1.2rem', letterSpacing: '0.5px' }}>
+                            {t('hero.title')}
+                        </span>
+                    </div>
                     <button
                         onClick={() => setIsMobileNavOpen(false)}
                         aria-label="Close navigation menu"
-                        style={{ background: 'rgba(255,255,255,0.1)', border: 'none', color: 'white', cursor: 'pointer', borderRadius: '50%', padding: '0.4rem', display: 'flex' }}
+                        style={{ background: 'rgba(255,255,255,0.1)', border: 'none', color: 'white', cursor: 'pointer', borderRadius: '50%', padding: '0.5rem', display: 'flex', transition: 'background 0.2s' }}
+                        onMouseOver={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.2)'}
+                        onMouseOut={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
                     >
-                        <X size={24} />
+                        <X size={22} />
                     </button>
                 </div>
                 <div className="mobile-drawer-content">
-                    <LanguageSelector />
+                    <div style={{ padding: '0.5rem 1.2rem', marginBottom: '1rem', borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: '1.5rem', width: '100%' }}>
+                        <LanguageSelector />
+                    </div>
                     <Link href="/" className="mobile-nav-link" onClick={() => setIsMobileNavOpen(false)}>Home</Link>
                     <Link href="/shop" className="mobile-nav-link" onClick={() => setIsMobileNavOpen(false)}>{t('nav.shop')}</Link>
                     <button
                         onClick={() => { setIsMobileNavOpen(false); setIsMenuOpen(true); }}
                         className="mobile-nav-link"
-                        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+                        style={{ background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit' }}
                     >
                         {t('nav.menu')}
                     </button>
@@ -259,18 +289,19 @@ export default function Navbar() {
 
                         {/* Header */}
                         <div style={{
-                            padding: '1rem',
-                            borderBottom: '1px solid #eee',
+                            padding: '1.2rem 1.5rem',
+                            borderBottom: '1px solid #f1f5f9',
                             display: 'flex',
                             justifyContent: 'space-between',
-                            alignItems: 'center'
+                            alignItems: 'center',
+                            background: '#ffffff'
                         }}>
-                            <h3 style={{ margin: 0, color: 'var(--primary)' }}>{t('nav.menu')}</h3>
+                            <h3 style={{ margin: 0, color: 'var(--primary)', fontWeight: '800', fontSize: '1.25rem' }}>{t('nav.menu')}</h3>
                             <button
                                 onClick={() => setIsMenuOpen(false)}
-                                style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.5rem', color: '#666' }}
+                                style={{ background: 'rgba(241, 245, 249, 0.8)', border: 'none', cursor: 'pointer', color: '#64748b', borderRadius: '50%', padding: '0.4rem', display: 'flex' }}
                             >
-                                &times;
+                                <X size={20} />
                             </button>
                         </div>
 
@@ -296,23 +327,70 @@ export default function Navbar() {
 
                         {/* Footer with Download */}
                         <div style={{
-                            padding: '1rem',
-                            borderTop: '1px solid #eee',
+                            padding: '1.2rem',
+                            borderTop: '1px solid #f1f5f9',
                             display: 'flex',
-                            justifyContent: 'center'
+                            justifyContent: 'center',
+                            background: '#ffffff'
                         }}>
                             <a
                                 href="/images/menu-card.jpg"
                                 download="Godavari-Pickles-Menu.jpg"
                                 className="btn btn-primary"
-                                style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+                                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', width: '100%', padding: '0.8rem', fontSize: '1.1rem', borderRadius: '50px' }}
                             >
-                                <Download size={20} /> Download Menu
+                                <Download size={22} /> Download Menu
                             </a>
                         </div>
                     </div>
                 </div>
             )}
+
+            {/* Mobile Floating Menu Button */}
+            <style>{`
+                @media (min-width: 851px) {
+                    .mobile-floating-menu {
+                        display: none !important;
+                    }
+                }
+                @keyframes pulse-soft {
+                    0% { transform: translateX(-50%) scale(1); box-shadow: 0 4px 15px rgba(0,61,34,0.3); }
+                    50% { transform: translateX(-50%) scale(1.03); box-shadow: 0 8px 25px rgba(0,61,34,0.5); }
+                    100% { transform: translateX(-50%) scale(1); box-shadow: 0 4px 15px rgba(0,61,34,0.3); }
+                }
+            `}</style>
+            
+            <div className="mobile-floating-menu" style={{
+                position: 'fixed',
+                bottom: '2rem',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                zIndex: 45,
+                display: 'flex',
+                animation: 'pulse-soft 3s infinite ease-in-out'
+            }}>
+                <button
+                    onClick={() => setIsMenuOpen(true)}
+                    style={{
+                        background: 'var(--primary)',
+                        color: 'white',
+                        padding: '12px 28px',
+                        borderRadius: '30px',
+                        fontWeight: 'bold',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        fontSize: '1.05rem',
+                        border: '2px solid rgba(255,255,255,0.2)',
+                        backdropFilter: 'blur(5px)',
+                        letterSpacing: '0.5px',
+                        cursor: 'pointer'
+                    }}
+                >
+                    <FileText size={20} />
+                    {t('nav.menu')}
+                </button>
+            </div>
         </>
     );
 }
