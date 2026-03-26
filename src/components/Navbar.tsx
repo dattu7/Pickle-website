@@ -367,6 +367,7 @@ export default function Navbar() {
                 transform: 'translateX(-50%)',
                 zIndex: 45,
                 display: 'flex',
+                borderRadius: '30px',
                 animation: 'pulse-soft 3s infinite ease-in-out'
             }}>
                 <button
