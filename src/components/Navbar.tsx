@@ -203,7 +203,7 @@ export default function Navbar() {
             <nav className={`navbar ${scrolled ? 'scrolled' : ''}`} style={{ padding: 0 }}>
                 <div className="marquee-container" style={{ height: scrolled ? '0px' : 'auto' }}>
                     <div className="marquee-content">
-                        🚚 Shipping All Over India 🇮🇳 &nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp; ✈️ Premium Leak-Proof Packaging Available For International Export
+                        {t('nav.marquee')}
                     </div>
                 </div>
                 <div className="container nav-container flex justify-between items-center" style={{ padding: '1rem', position: 'relative', transition: 'padding 0.3s ease' }}>
@@ -228,7 +228,7 @@ export default function Navbar() {
 
                     {/* Desktop Navigation */}
                     <div className="desktop-nav">
-                        <Link href="/" className="nav-link" style={{ fontSize: '1rem' }}>Home</Link>
+                        <Link href="/" className="nav-link" style={{ fontSize: '1rem' }}>{t('nav.home')}</Link>
                         <Link href="/shop" className="nav-link" style={{ fontSize: '1rem' }}>{t('nav.shop')}</Link>
                         <button
                             onClick={() => setIsMenuOpen(true)}
@@ -298,7 +298,7 @@ export default function Navbar() {
                     <div style={{ padding: '0.5rem 1.2rem', marginBottom: '1rem', borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: '1.5rem', width: '100%' }}>
                         <LanguageSelector />
                     </div>
-                    <Link href="/" className="mobile-nav-link" onClick={() => setIsMobileNavOpen(false)}>Home</Link>
+                    <Link href="/" className="mobile-nav-link" onClick={() => setIsMobileNavOpen(false)}>{t('nav.home')}</Link>
                     <Link href="/shop" className="mobile-nav-link" onClick={() => setIsMobileNavOpen(false)}>{t('nav.shop')}</Link>
                     <button
                         onClick={() => { setIsMobileNavOpen(false); setIsMenuOpen(true); }}
@@ -392,7 +392,7 @@ export default function Navbar() {
                                 className="btn btn-primary"
                                 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', width: '100%', padding: '0.8rem', fontSize: '1.1rem', borderRadius: '50px' }}
                             >
-                                <Download size={22} /> Download Menu
+                                <Download size={22} /> {t('nav.downloadMenu')}
                             </a>
                         </div>
                     </div>
@@ -457,7 +457,7 @@ export default function Navbar() {
             <div className="mobile-bottom-nav">
                 <Link href="/" className="bottom-nav-item active">
                     <Home size={22} />
-                    <span>Home</span>
+                    <span>{t('nav.home')}</span>
                 </Link>
                 <Link href="/shop" className="bottom-nav-item">
                     <ShoppingBag size={22} />

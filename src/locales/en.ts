@@ -38,7 +38,11 @@ export const en = {
             gongura: "Gongura Pachadi",
             ginger: "Allam Pachadi (Ginger)",
             prawns: "Royyala Pachadi (Prawns)"
-        }
+        },
+        veg: "VEG",
+        nonVeg: "NON-VEG",
+        shareText: "Check out this delicious item from Godavari Pickles!",
+        copied: "Product link copied to clipboard!"
     },
     about: {
         roots: "Our Roots",
@@ -58,7 +62,9 @@ export const en = {
         shop: "Shop",
         about: "About",
         contact: "Contact",
-        menu: "Menu"
+        menu: "Menu",
+        downloadMenu: "Download Menu",
+        marquee: "🚚 Shipping All Over India 🇮🇳  •  ✈️ Premium Leak-Proof Packaging Available For International Export"
     },
     shop: {
         title: "Shop Godavari Delights",

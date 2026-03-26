@@ -221,7 +221,7 @@ export default function Home() {
                     zIndex: 2,
                     boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
                   }}>
-                    {item.category === 'Veg' ? 'VEG' : 'NON-VEG'}
+                    {item.category === 'Veg' ? t('special.veg') : t('special.nonVeg')}
                   </span>
 
                   {item.image ? (
@@ -257,12 +257,12 @@ export default function Home() {
                             if (typeof navigator !== 'undefined' && navigator.share) {
                                 navigator.share({
                                     title: item.name,
-                                    text: `Check out this delicious ${item.name} from Godavari Pickles!`,
+                                    text: t('special.shareText').replace('{item}', item.name),
                                     url: window.location.origin + `/shop/${item.id}`,
                                 }).catch(() => {});
                             } else {
                                 navigator.clipboard.writeText(window.location.origin + `/shop/${item.id}`);
-                                alert('Product link copied to clipboard!');
+                                alert(t('special.copied'));
                             }
                         }}
                         style={{

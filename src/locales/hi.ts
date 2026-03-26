@@ -38,7 +38,11 @@ export const hi = {
             gongura: "गोंगुरा",
             ginger: "अदरक अचार (Allam Pachadi)",
             prawns: "झींगा अचार (Royyala Pachadi)"
-        }
+        },
+        veg: "शाकाहारी",
+        nonVeg: "मांसाहारी",
+        shareText: "गोदावरी अचार से यह स्वादिष्ट अचार देखें!",
+        copied: "उत्पाद लिंक कॉपी हो गया!"
     },
     about: {
         roots: "हमारी जड़ें",
@@ -58,7 +62,9 @@ export const hi = {
         shop: "दुकान",
         about: "हमारे बारे में",
         contact: "संपर्क",
-        menu: "मेनू"
+        menu: "मेनू",
+        downloadMenu: "मेनू डाउनलोड करें",
+        marquee: "🚚 पूरे भारत में शिपिंग 🇮🇳  •  ✈️ अंतर्राष्ट्रीय निर्यात के लिए प्रीमियम पैकेजिंग उपलब्ध है"
     },
     shop: {
         title: "गोदावरी के स्वाद खरीदें",
