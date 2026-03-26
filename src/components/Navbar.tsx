@@ -5,12 +5,13 @@ import Image from 'next/image';
 import LanguageSelector from './LanguageSelector';
 import { useLanguage } from '@/context/LanguageContext';
 import { useState, useEffect } from 'react';
-import { Download, Menu as MenuIcon, X, FileText } from 'lucide-react';
+import { Download, Menu as MenuIcon, X, FileText, Home, ShoppingBag, Phone, Leaf } from 'lucide-react';
 
 export default function Navbar() {
     const { t } = useLanguage();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
 
     // Prevent scrolling when mobile nav is open
     useEffect(() => {
@@ -21,6 +22,15 @@ export default function Navbar() {
         }
         return () => { document.body.style.overflow = 'auto'; };
     }, [isMobileNavOpen]);
+
+    // Handle scroll shrinking header
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 10);
+        };
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     return (
         <>
@@ -147,17 +157,38 @@ export default function Navbar() {
                     padding-right: 2rem;
                 }
                 
-                .marquee-container:hover .marquee-content {
-                    animation-play-state: paused;
+                }
+
+                /* Scroll Shrink Navbar Effects */
+                .navbar {
+                    transition: padding 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+                }
+                .marquee-container {
+                    transition: all 0.3s ease;
+                    transform-origin: top;
+                }
+                .navbar.scrolled .marquee-container {
+                    height: 0;
+                    padding: 0;
+                    opacity: 0;
+                    overflow: hidden;
+                }
+                .navbar.scrolled .nav-container {
+                    padding: 0.5rem 1rem !important;
+                }
+                @media (max-width: 850px) {
+                    .navbar.scrolled .nav-container {
+                        padding: 0.8rem 1rem !important;
+                    }
                 }
             `}</style>
-            <nav className="navbar" style={{ padding: 0 }}>
-                <div className="marquee-container">
+            <nav className={`navbar ${scrolled ? 'scrolled' : ''}`} style={{ padding: 0 }}>
+                <div className="marquee-container" style={{ height: scrolled ? '0px' : 'auto' }}>
                     <div className="marquee-content">
                         🚚 Shipping All Over India 🇮🇳 &nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp; ✈️ Premium Leak-Proof Packaging Available For International Export
                     </div>
                 </div>
-                <div className="container flex justify-between items-center" style={{ padding: '1rem', position: 'relative' }}>
+                <div className="container nav-container flex justify-between items-center" style={{ padding: '1rem', position: 'relative', transition: 'padding 0.3s ease' }}>
                     <Link href="/" className="flex items-center gap-2" style={{ zIndex: 50, textDecoration: 'none' }} onClick={() => setIsMobileNavOpen(false)}>
                         <Image
                             src="/Round_logo.png"
@@ -346,51 +377,108 @@ export default function Navbar() {
                 </div>
             )}
 
-            {/* Mobile Floating Menu Button */}
+            {/* App-like Bottom Navigation for Mobile */}
             <style>{`
                 @media (min-width: 851px) {
-                    .mobile-floating-menu {
+                    .mobile-bottom-nav {
                         display: none !important;
                     }
                 }
-                @keyframes pulse-soft {
-                    0% { transform: translateX(-50%) scale(1); box-shadow: 0 4px 15px rgba(0,61,34,0.3); }
-                    50% { transform: translateX(-50%) scale(1.03); box-shadow: 0 8px 25px rgba(0,61,34,0.5); }
-                    100% { transform: translateX(-50%) scale(1); box-shadow: 0 4px 15px rgba(0,61,34,0.3); }
+                .mobile-bottom-nav {
+                    position: fixed;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    background: rgba(255, 255, 255, 0.98);
+                    backdrop-filter: blur(15px);
+                    box-shadow: 0 -4px 30px rgba(0,0,0,0.1);
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: flex-end; /* Align to bottom for the elevated center button */
+                    z-index: 90;
+                    padding: 0.5rem 0;
+                    padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
+                    border-top: 1px solid rgba(0,0,0,0.06);
+                }
+                .bottom-nav-item {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    text-decoration: none;
+                    color: var(--muted);
+                    font-size: 0.75rem;
+                    font-weight: 700;
+                    gap: 5px;
+                    transition: all 0.2s ease;
+                    flex: 1;
+                    padding: 0.2rem 0;
+                }
+                .bottom-nav-item svg {
+                    transition: all 0.2s ease;
+                }
+                .bottom-nav-item.active {
+                    color: var(--primary);
+                }
+                .bottom-nav-item:active svg {
+                    transform: scale(0.85);
+                }
+                
+                /* Body padding adjustment */
+                @media (max-width: 850px) {
+                    body {
+                        padding-bottom: 5rem;
+                    }
                 }
             `}</style>
             
-            <div className="mobile-floating-menu" style={{
-                position: 'fixed',
-                bottom: '2rem',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                zIndex: 45,
-                display: 'flex',
-                borderRadius: '30px',
-                animation: 'pulse-soft 3s infinite ease-in-out'
-            }}>
-                <button
-                    onClick={() => setIsMenuOpen(true)}
-                    style={{
-                        background: 'var(--primary)',
-                        color: 'white',
-                        padding: '12px 28px',
-                        borderRadius: '30px',
-                        fontWeight: 'bold',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        fontSize: '1.05rem',
-                        border: '2px solid rgba(255,255,255,0.2)',
-                        backdropFilter: 'blur(5px)',
-                        letterSpacing: '0.5px',
-                        cursor: 'pointer'
-                    }}
-                >
-                    <FileText size={20} />
-                    {t('nav.menu')}
-                </button>
+            <div className="mobile-bottom-nav">
+                <Link href="/" className="bottom-nav-item active">
+                    <Home size={22} />
+                    <span>Home</span>
+                </Link>
+                <Link href="/shop" className="bottom-nav-item">
+                    <ShoppingBag size={22} />
+                    <span>{t('nav.shop')}</span>
+                </Link>
+                
+                {/* Elevated Center Menu Button */}
+                <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+                    <button 
+                        onClick={() => {
+                            if (typeof window !== 'undefined' && navigator.vibrate) navigator.vibrate(50);
+                            setIsMenuOpen(true);
+                        }} 
+                        className="bottom-nav-item" 
+                        style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', padding: 0 }}
+                    >
+                        <div style={{
+                            background: 'var(--primary)',
+                            color: 'white',
+                            padding: '14px',
+                            borderRadius: '50%',
+                            marginTop: '-35px', /* Elevate it! */
+                            boxShadow: '0 8px 20px rgba(0, 61, 34, 0.4), inset 0 2px 4px rgba(255,255,255,0.2)',
+                            border: '5px solid white',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            transition: 'transform 0.2s ease, box-shadow 0.2s ease'
+                        }} className="elevated-menu-btn"
+                        onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                        onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
+                            <FileText size={22} />
+                        </div>
+                        <span style={{ color: 'var(--primary)', marginTop: '4px' }}>{t('nav.menu')}</span>
+                    </button>
+                </div>
+
+                <Link href="/#about" className="bottom-nav-item">
+                    <Leaf size={22} />
+                    <span>{t('nav.about')}</span>
+                </Link>
+                <Link href="/#contact" className="bottom-nav-item">
+                    <Phone size={22} />
+                    <span>{t('nav.contact')}</span>
+                </Link>
             </div>
         </>
     );

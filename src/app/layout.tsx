@@ -16,6 +16,11 @@ export const metadata: Metadata = {
   },
 };
 
+import { Viewport } from 'next';
+export const viewport: Viewport = {
+  themeColor: '#004225',
+};
+
 import { LanguageProvider } from "@/context/LanguageContext";
 
 export default function RootLayout({
