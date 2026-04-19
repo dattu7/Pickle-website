@@ -6,10 +6,10 @@ import Link from 'next/link';
 import { ArrowRight, Star, Leaf, Award, Heart, Truck, Share2 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 
 // Animation variants
-const staggerContainer = {
+const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
@@ -19,17 +19,17 @@ const staggerContainer = {
   }
 };
 
-const itemVariant = {
+const itemVariant: Variants = {
   hidden: { opacity: 0, y: 30 },
   show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
 };
 
-const itemVariantLeft = {
+const itemVariantLeft: Variants = {
   hidden: { opacity: 0, x: -50 },
   show: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
 };
 
-const itemVariantRight = {
+const itemVariantRight: Variants = {
   hidden: { opacity: 0, x: 50 },
   show: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
 };

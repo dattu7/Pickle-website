@@ -22,6 +22,7 @@ export const viewport: Viewport = {
 };
 
 import { LanguageProvider } from "@/context/LanguageContext";
+import { Analytics } from "@vercel/analytics/next";
 
 export default function RootLayout({
   children,
@@ -35,6 +36,7 @@ export default function RootLayout({
           {children}
           <WhatsAppBtn />
         </LanguageProvider>
+        <Analytics />
       </body>
     </html>
   );
