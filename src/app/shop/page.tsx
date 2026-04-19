@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import { Star, Share2 } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function ShopPage() {
     const { t } = useLanguage();
@@ -30,7 +31,13 @@ export default function ShopPage() {
     const podiProducts = products.filter(p => p.category === 'Podi');
 
     const ProductSection = ({ title, items }: { title: string, items: any[] }) => (
-        <div className="mb-12">
+        <motion.div 
+            className="mb-12"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6 }}
+        >
             <h2 className="mb-6" style={{ fontSize: '1.5rem', color: 'var(--primary)', borderLeft: '4px solid var(--secondary)', paddingLeft: '1rem' }}>
                 {title}
             </h2>
@@ -41,8 +48,14 @@ export default function ShopPage() {
                 paddingBottom: '1rem',
                 scrollSnapType: 'x mandatory'
             }} className="no-scrollbar">
-                {items.map((product: any) => (
-                    <div key={product.id} className="card flex flex-col justify-between group" style={{
+                {items.map((product: any, index: number) => (
+                    <motion.div 
+                        initial={{ opacity: 0, x: 20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: index * 0.1, duration: 0.4 }}
+                        whileHover={{ y: -5 }}
+                        key={product.id} className="card flex flex-col justify-between group" style={{
                         minWidth: '280px',
                         maxWidth: '280px',
                         scrollSnapAlign: 'start',
@@ -169,10 +182,10 @@ export default function ShopPage() {
                                 </div>
                             )}
                         </div>
-                    </div>
+                    </motion.div>
                 ))}
             </div>
-        </div>
+        </motion.div>
     );
 
     return (
@@ -184,7 +197,12 @@ export default function ShopPage() {
                 </div>
 
                 {/* Mana Special Pickles Section */}
-                <div style={{ marginBottom: '4rem' }}>
+                <motion.div 
+                    style={{ marginBottom: '4rem' }}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                >
                     <div className="flex justify-between items-end mb-8 flex-wrap gap-4">
                         <div>
                             <h2 style={{ marginBottom: '0.5rem', color: 'var(--primary)', fontSize: '2rem', fontWeight: 'bold' }}>{t('special.title')}</h2>
@@ -200,7 +218,13 @@ export default function ShopPage() {
                         scrollSnapType: 'x mandatory'
                     }} className="no-scrollbar">
                         {specialItems.map((item, i) => (
-                            <div key={i} className="card group" style={{
+                            <motion.div 
+                                initial={{ opacity: 0, x: 20 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: i * 0.1, duration: 0.4 }}
+                                whileHover={{ y: -5 }}
+                                key={i} className="card group" style={{
                                 minWidth: '280px',
                                 maxWidth: '280px',
                                 scrollSnapAlign: 'start',
@@ -317,10 +341,10 @@ export default function ShopPage() {
                                         </div>
                                     </div>
                                 </Link>
-                            </div>
+                            </motion.div>
                         ))}
                     </div>
-                </div>
+                </motion.div>
 
                 <ProductSection title={t('shop.veg')} items={vegProducts} />
                 <ProductSection title={t('shop.nonVeg')} items={nonVegProducts} />

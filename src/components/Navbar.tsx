@@ -5,13 +5,34 @@ import Image from 'next/image';
 import LanguageSelector from './LanguageSelector';
 import { useLanguage } from '@/context/LanguageContext';
 import { useState, useEffect } from 'react';
+import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-motion';
 import { Download, Menu as MenuIcon, X, FileText, Home, ShoppingBag, Phone, Leaf } from 'lucide-react';
+
 
 export default function Navbar() {
     const { t } = useLanguage();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
     const [touchStartX, setTouchStartX] = useState<number | null>(null);
+    const [hidden, setHidden] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
+
+    const { scrollY } = useScroll();
+
+    useMotionValueEvent(scrollY, "change", (latest) => {
+        const previous = scrollY.getPrevious() ?? 0;
+        if (latest > 50) {
+            setScrolled(true);
+        } else {
+            setScrolled(false);
+        }
+        
+        if (latest > previous && latest > 150) {
+            setHidden(true);
+        } else {
+            setHidden(false);
+        }
+    });
 
     // Prevent scrolling when mobile nav is open
     useEffect(() => {
@@ -171,12 +192,39 @@ export default function Navbar() {
                     animation-play-state: paused;
                 }
             `}</style>
-            <nav className="navbar" style={{ padding: 0 }}>
-                <div className="marquee-container">
-                    <div className="marquee-content">
-                        {t('nav.marquee')}
-                    </div>
-                </div>
+            <motion.nav 
+                className="navbar" 
+                style={{ 
+                    padding: 0,
+                    background: 'var(--primary)',
+                    boxShadow: scrolled ? '0 4px 20px rgba(0, 0, 0, 0.2)' : 'none',
+                    backdropFilter: 'blur(10px)',
+                    borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                    transition: 'box-shadow 0.3s ease'
+                }}
+                variants={{
+                    visible: { y: 0 },
+                    hidden: { y: "-100%" }
+                }}
+                animate={hidden ? "hidden" : "visible"}
+                transition={{ duration: 0.35, ease: "easeInOut" }}
+            >
+                <AnimatePresence>
+                    {!scrolled && (
+                        <motion.div 
+                            className="marquee-container"
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3 }}
+                            style={{ overflow: 'hidden' }}
+                        >
+                            <div className="marquee-content">
+                                {t('nav.marquee')}
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
                 <div className="container flex justify-between items-center" style={{ padding: '1rem', position: 'relative' }}>
                     <Link href="/" className="flex items-center gap-2" style={{ zIndex: 50, textDecoration: 'none' }} onClick={() => setIsMobileNavOpen(false)}>
                         <Image
@@ -222,7 +270,7 @@ export default function Navbar() {
                         <MenuIcon size={28} />
                     </button>
                 </div>
-            </nav>
+            </motion.nav>
 
             {/* Mobile Navigation Backdrop */}
             <div
