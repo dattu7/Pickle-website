@@ -1,414 +1,419 @@
 'use client';
+// Godavari Pickles — Saffron × Crimson Theme
 
 import Navbar from '@/components/Navbar';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Star, Leaf, Award, Heart, Truck, Share2 } from 'lucide-react';
+import { ArrowRight, Star, Leaf, Award, Heart, Truck, Share2, Sparkles, ChefHat, Globe2, ShieldCheck, Phone } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
-import { useState } from 'react';
-import { motion, Variants } from 'framer-motion';
+import { useState, useRef } from 'react';
+import { motion, Variants, useMotionValue, useTransform, useSpring } from 'framer-motion';
 
-// Animation variants
+// ─── Animation Variants ───────────────────────────────────────────────────────
 const staggerContainer: Variants = {
   hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15
-    }
-  }
+  show: { opacity: 1, transition: { staggerChildren: 0.13, delayChildren: 0.1 } },
 };
 
-const itemVariant: Variants = {
-  hidden: { opacity: 0, y: 30 },
-  show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 36 },
+  show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 280, damping: 22 } },
 };
 
-const itemVariantLeft: Variants = {
+const fadeLeft: Variants = {
   hidden: { opacity: 0, x: -50 },
-  show: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
+  show: { opacity: 1, x: 0, transition: { type: 'spring', stiffness: 260, damping: 22 } },
 };
 
-const itemVariantRight: Variants = {
+const fadeRight: Variants = {
   hidden: { opacity: 0, x: 50 },
-  show: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
+  show: { opacity: 1, x: 0, transition: { type: 'spring', stiffness: 260, damping: 22 } },
 };
 
+// ─── 3D Tilt Card ─────────────────────────────────────────────────────────────
+function TiltCard({ children, style, className }: { children: React.ReactNode; style?: React.CSSProperties; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const rotateX = useTransform(y, [-0.5, 0.5], [8, -8]);
+  const rotateY = useTransform(x, [-0.5, 0.5], [-8, 8]);
+  const springRotX = useSpring(rotateX, { stiffness: 300, damping: 30 });
+  const springRotY = useSpring(rotateY, { stiffness: 300, damping: 30 });
+
+  const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect) return;
+    x.set((e.clientX - rect.left) / rect.width - 0.5);
+    y.set((e.clientY - rect.top) / rect.height - 0.5);
+  };
+
+  const handleLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMove}
+      onMouseLeave={handleLeave}
+      style={{ ...style, rotateX: springRotX, rotateY: springRotY, transformStyle: 'preserve-3d', perspective: 1000 }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// ─── Main Component ────────────────────────────────────────────────────────────
 export default function Home() {
   const { t } = useLanguage();
   const [doubleTapItem, setDoubleTapItem] = useState<string | null>(null);
 
   const handleDoubleTap = (id: string, e: React.MouseEvent) => {
-      e.preventDefault();
-      setDoubleTapItem(id);
-      setTimeout(() => setDoubleTapItem(null), 1000);
-      
-      if (typeof window !== 'undefined' && navigator.vibrate) navigator.vibrate([50, 50, 50]);
+    e.preventDefault();
+    setDoubleTapItem(id);
+    setTimeout(() => setDoubleTapItem(null), 1000);
+    if (typeof window !== 'undefined' && navigator.vibrate) navigator.vibrate([50, 50, 50]);
   };
 
+  const features = [
+    {
+      icon: <Leaf size={28} />,
+      title: t('whyChoose.farmFresh.title'),
+      desc: t('whyChoose.farmFresh.desc'),
+      color: '#e8a020',
+      gradient: 'linear-gradient(135deg, rgba(232,160,32,0.18), rgba(232,160,32,0.04))',
+      glow: 'rgba(232,160,32,0.35)',
+    },
+    {
+      icon: <Heart size={28} />,
+      title: t('whyChoose.traditional.title'),
+      desc: t('whyChoose.traditional.desc'),
+      color: '#d93025',
+      gradient: 'linear-gradient(135deg, rgba(217,48,37,0.18), rgba(217,48,37,0.04))',
+      glow: 'rgba(217,48,37,0.32)',
+    },
+    {
+      icon: <ShieldCheck size={28} />,
+      title: t('whyChoose.noPreservatives.title'),
+      desc: t('whyChoose.noPreservatives.desc'),
+      color: '#f5c842',
+      gradient: 'linear-gradient(135deg, rgba(245,200,66,0.18), rgba(245,200,66,0.04))',
+      glow: 'rgba(245,200,66,0.3)',
+    },
+    {
+      icon: <Truck size={28} />,
+      title: t('whyChoose.villageToCity.title'),
+      desc: t('whyChoose.villageToCity.desc'),
+      color: '#ff8c42',
+      gradient: 'linear-gradient(135deg, rgba(255,140,66,0.18), rgba(255,140,66,0.04))',
+      glow: 'rgba(255,140,66,0.3)',
+    },
+  ];
+
+  const featuredItems = [
+    { id: '1', name: t('special.items.avakaya'), telugu: 'ఆవకాయ', price: 300, price1kg: 600, rating: 5, reviews: 150, image: '/images/mango.png', category: 'Veg' },
+    { id: '12', name: t('special.items.chicken'), telugu: 'కోడి పచ్చడి', price: 400, price1kg: 800, rating: 5, reviews: 98, image: '/images/chicken.png', category: 'Non-veg' },
+    { id: '4', name: t('special.items.gongura'), telugu: 'గోంగూర', price: 275, price1kg: 550, rating: 4, reviews: 112, image: '/images/Gongura.png', category: 'Veg' },
+    { id: '7', name: t('special.items.ginger'), telugu: 'అల్లం పచ్చడి', price: 250, price1kg: 500, rating: 5, reviews: 80, image: '/images/Ginger.png', category: 'Veg' },
+    { id: '16', name: t('special.items.prawns'), telugu: 'రొయ్యల పచ్చడి', price: 500, price1kg: 1000, rating: 5, reviews: 105, image: '/images/prawns.png', category: 'Non-veg' },
+  ];
+
   return (
-    <main>
+    <main style={{ background: '#040d07', minHeight: '100vh' }}>
       <Navbar />
 
-      {/* Hero Section */}
-      <section className="hero-section" style={{
-        color: 'white',
-        padding: '10rem 1rem',
-        textAlign: 'center',
-        minHeight: '85vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
-        position: 'relative',
-        overflow: 'hidden'
-      }}>
-        <motion.div 
-          className="container" style={{ padding: '0 10px', position: 'relative', zIndex: 10 }}
+      {/* ══════════════════ HERO ══════════════════ */}
+      <section className="hero-section" style={{ padding: '8rem 1rem 6rem', textAlign: 'center', flexDirection: 'column' }}>
+        {/* Floating orbs */}
+        <div className="hero-orb" style={{ width: 600, height: 600, top: '-10%', right: '-10%', background: 'radial-gradient(circle, rgba(232,160,32,0.14) 0%, transparent 70%)' }} />
+        <div className="hero-orb" style={{ width: 420, height: 420, bottom: '5%', left: '-5%', background: 'radial-gradient(circle, rgba(217,48,37,0.1) 0%, transparent 70%)', animationDelay: '3.5s' }} />
+        <div className="hero-orb" style={{ width: 280, height: 280, top: '30%', left: '60%', background: 'radial-gradient(circle, rgba(245,200,66,0.07) 0%, transparent 70%)', animationDelay: '6s' }} />
+
+        <motion.div
+          className="container"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
+          transition={{ duration: 1, ease: 'easeOut' }}
+          style={{ position: 'relative', zIndex: 10 }}
         >
-          <motion.h1 
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            style={{
-              fontSize: 'clamp(2.5rem, 10vw, 4rem)',
-              marginBottom: '1rem',
-              textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
-              color: '#ffffff',
-              fontFamily: 'serif'
-          }}>
-            {t('hero.title')}
-          </motion.h1>
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            style={{
-              fontSize: 'clamp(1.4rem, 6vw, 2rem)',
-              marginBottom: '2rem',
-              color: 'var(--secondary)',
-              fontWeight: '400'
-          }}>
-            {t('hero.subtitle')}
-          </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.6 }}
-            style={{
-              fontSize: 'clamp(1rem, 5vw, 1.25rem)',
-              maxWidth: '700px',
-              margin: '0 auto 2.5rem',
-              color: '#f0f0f0',
-              lineHeight: '1.6'
-          }}>
-            {t('hero.description')}
-            <br />
-            <span style={{ fontStyle: 'italic', marginTop: '0.5rem', display: 'block' }}>{t('hero.quote')}</span>
-          </motion.p>
-
-          <motion.div 
+          {/* Badge */}
+          <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.8, type: "spring" }}
-            style={{ marginBottom: '2rem', display: 'inline-block', background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(5px)', padding: '0.5rem 1.5rem', borderRadius: '50px', border: '1px solid rgba(255,255,255,0.4)' }}
+            transition={{ delay: 0.2, type: 'spring' }}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(232,160,32,0.1)', border: '1px solid rgba(232,160,32,0.28)', color: '#e8a020', padding: '0.45rem 1.25rem', borderRadius: '9999px', fontSize: '0.8rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '1.75rem' }}
           >
-            <span style={{ color: '#fff', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <Truck size={20} /> {t('hero.shipping')}
-            </span>
+            <Sparkles size={13} /> Authentic · Traditional · Village-Made
           </motion.div>
 
-          <motion.div 
+          {/* Title */}
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.3 }}
+            style={{
+              fontSize: 'clamp(2.8rem, 9vw, 5.5rem)',
+              marginBottom: '1.25rem',
+              fontFamily: "'Playfair Display', serif",
+              fontWeight: 800,
+              lineHeight: 1.05,
+              letterSpacing: '-0.02em',
+            }}
+          >
+            <span style={{ color: '#f2ede8' }}>{t('hero.title').split(' ')[0]} </span>
+            <span style={{
+              background: 'linear-gradient(135deg, #e8a020 0%, #f5c842 45%, #d93025 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}>
+              {t('hero.title').split(' ').slice(1).join(' ')}
+            </span>
+          </motion.h1>
+
+          {/* Subtitle */}
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 1 }}
-            className="flex justify-center gap-4 flex-wrap hero-buttons" style={{ maxWidth: '500px', margin: '0 auto' }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+            style={{ fontSize: 'clamp(1.2rem, 4vw, 1.7rem)', marginBottom: '1.5rem', color: '#f5c842', fontWeight: 500, fontFamily: "'Outfit', sans-serif" }}
           >
-            <Link href="/shop" className="btn btn-primary btn-pulse" style={{ padding: '1rem 2.5rem', fontSize: '1.2rem' }}>
-              {t('hero.orderNow')} <ArrowRight size={24} />
+            {t('hero.subtitle')}
+          </motion.h2>
+
+          {/* Description */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.7 }}
+            style={{ fontSize: 'clamp(1rem, 2.5vw, 1.15rem)', maxWidth: '640px', margin: '0 auto 2rem', color: 'rgba(240,248,243,0.65)', lineHeight: '1.75' }}
+          >
+            {t('hero.description')}
+            <br />
+            <em style={{ color: 'rgba(240,248,243,0.45)', display: 'block', marginTop: '0.5rem', fontSize: '0.95em' }}>{t('hero.quote')}</em>
+          </motion.p>
+
+          {/* Shipping badge */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.9, type: 'spring' }}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem', background: 'rgba(232,160,32,0.08)', backdropFilter: 'blur(12px)', border: '1px solid rgba(232,160,32,0.2)', padding: '0.55rem 1.5rem', borderRadius: '9999px', marginBottom: '2.25rem' }}
+          >
+            <Truck size={17} style={{ color: '#e8a020' }} />
+            <span style={{ color: '#fff', fontWeight: 600, fontSize: '0.9rem' }}>{t('hero.shipping')}</span>
+          </motion.div>
+
+          {/* CTAs */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.1, duration: 0.5 }}
+            className="flex justify-center gap-4 flex-wrap hero-buttons"
+            style={{ maxWidth: '480px', margin: '0 auto' }}
+          >
+            <Link href="/shop" className="btn btn-primary btn-pulse" style={{ padding: '1rem 2.5rem', fontSize: '1.1rem' }}>
+              {t('hero.orderNow')} <ArrowRight size={22} />
             </Link>
-            <button className="btn" style={{
-              background: 'rgba(255,255,255,0.1)',
-              backdropFilter: 'blur(5px)',
-              border: '2px solid white',
-              color: 'white',
-              padding: '1rem 2.5rem',
-              fontSize: '1.2rem'
-            }}>
+            <button className="btn btn-ghost" style={{ padding: '1rem 2rem', fontSize: '1.1rem' }}>
               {t('hero.watchProcess')}
             </button>
+          </motion.div>
+
+          {/* Stats row */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.3, duration: 0.6 }}
+            style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap', marginTop: '3.5rem' }}
+          >
+            {[
+              { value: '500+', label: 'Happy Customers' },
+              { value: '25+', label: 'Pickle Varieties' },
+              { value: '100%', label: 'Natural' },
+              { value: '3 Gen', label: 'Family Recipe' },
+            ].map((stat, i) => (
+              <div key={i} className="stat-chip">
+                <span style={{ color: '#e8a020', fontWeight: 800, fontSize: '1.1rem' }}>{stat.value}</span>
+                <span style={{ color: 'rgba(242,237,232,0.45)', fontSize: '0.8rem', fontWeight: 500 }}>{stat.label}</span>
+              </div>
+            ))}
           </motion.div>
         </motion.div>
       </section>
 
-      {/* Why Choose Godavari Pickles? */}
-      <section style={{ padding: '6rem 0', background: 'var(--background)', overflow: 'hidden' }}>
-        <motion.div 
+      {/* ══════════════════ WHY CHOOSE US ══════════════════ */}
+      <section style={{ padding: '7rem 0', background: 'linear-gradient(180deg, #040d07 0%, #061510 50%, #040d07 100%)', overflow: 'hidden' }}>
+        <motion.div
           className="container"
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.15 }}
           variants={staggerContainer}
         >
-          <motion.h2 variants={itemVariant} className="text-center mb-2" style={{ fontSize: '2.5rem', color: 'var(--primary)' }}>{t('whyChoose.title')}</motion.h2>
-          <motion.p variants={itemVariant} className="text-center mb-12" style={{ fontSize: '1.2rem' }}>{t('whyChoose.subtitle')}</motion.p>
+          <motion.div variants={fadeUp} style={{ textAlign: 'center', marginBottom: '4rem' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(232,160,32,0.08)', border: '1px solid rgba(232,160,32,0.22)', color: '#e8a020', padding: '0.4rem 1.1rem', borderRadius: '9999px', fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '1.25rem' }}>
+              <Award size={13} /> Why Choose Us
+            </div>
+            <h2 style={{ color: '#f2ede8', marginBottom: '0.75rem' }}>{t('whyChoose.title')}</h2>
+            <p style={{ fontSize: '1.1rem', maxWidth: '500px', margin: '0 auto' }}>{t('whyChoose.subtitle')}</p>
+          </motion.div>
 
-          <div style={{
-            display: 'flex',
-            overflowX: 'auto',
-            gap: '1.5rem',
-            paddingBottom: '2rem', 
-            scrollSnapType: 'x mandatory',
-            justifyContent: 'flex-start'
-          }} className="no-scrollbar">
-            {[
-              {
-                icon: <Leaf size={32} />,
-                title: t('whyChoose.farmFresh.title'),
-                desc: t('whyChoose.farmFresh.desc'),
-                color: '#4caf50', 
-                bg: '#e8f5e9'
-              },
-              {
-                icon: <Heart size={32} />,
-                title: t('whyChoose.traditional.title'),
-                desc: t('whyChoose.traditional.desc'),
-                color: '#ff9800', 
-                bg: '#fff3e0'
-              },
-              {
-                icon: <Award size={32} />,
-                title: t('whyChoose.noPreservatives.title'),
-                desc: t('whyChoose.noPreservatives.desc'),
-                color: '#f44336', 
-                bg: '#ffebee'
-              },
-              {
-                icon: <Truck size={32} />,
-                title: t('whyChoose.villageToCity.title'),
-                desc: t('whyChoose.villageToCity.desc'),
-                color: '#2196f3', 
-                bg: '#e3f2fd'
-              }
-            ].map((feature, i) => (
-              <motion.div key={i} variants={itemVariant} whileHover={{ y: -10, scale: 1.02 }} className="card text-center transition-all duration-300" style={{
-                minWidth: '300px',
-                flex: '0 0 auto',
-                scrollSnapAlign: 'center',
-                padding: '2.5rem 1.5rem',
-                border: `1px solid ${feature.color}20`,
-                background: 'var(--surface)',
-                boxShadow: '0 10px 30px -10px rgba(0,0,0,0.1)',
-                borderRadius: '1.5rem',
-                position: 'relative',
-                overflow: 'hidden',
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
-                  height: '4px',
-                  background: feature.color
-                }}></div>
-                <motion.div 
-                  whileHover={{ rotate: 10, scale: 1.1 }}
-                  style={{
-                    background: feature.bg,
-                    width: '80px',
-                    height: '80px',
-                    borderRadius: '50%',
+          <div style={{ display: 'flex', gap: '1.5rem', overflowX: 'auto', paddingBottom: '1.5rem', scrollSnapType: 'x mandatory' }} className="no-scrollbar">
+            {features.map((f, i) => (
+              <motion.div key={i} variants={fadeUp}>
+                <TiltCard style={{ minWidth: 280, scrollSnapAlign: 'center' }}>
+                  <div className="card" style={{
+                    textAlign: 'center',
+                    border: `1px solid ${f.color}22`,
+                    background: f.gradient,
+                    backdropFilter: 'blur(20px)',
+                    minHeight: '260px',
                     display: 'flex',
+                    flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    margin: '0 auto 1.5rem',
-                    color: feature.color,
-                    boxShadow: `0 4px 10px ${feature.color}30`
-                  }} className="floating-icon"
-                >
-                  {feature.icon}
-                </motion.div>
-                <h3 style={{ marginBottom: '0.75rem', fontSize: '1.25rem', fontWeight: '800', color: 'var(--foreground)' }}>{feature.title}</h3>
-                <p style={{ fontSize: '0.95rem', lineHeight: '1.6', color: 'var(--muted)' }}>{feature.desc}</p>
+                  }}>
+                    {/* Top accent */}
+                    <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: `linear-gradient(90deg, transparent, ${f.color}, transparent)` }} />
+
+                    <motion.div
+                      whileHover={{ scale: 1.15, rotate: 5 }}
+                      className="feature-icon-wrap floating-icon"
+                      style={{ background: `${f.color}18`, color: f.color, boxShadow: `0 8px 24px ${f.glow}` }}
+                    >
+                      {f.icon}
+                    </motion.div>
+                    <h3 style={{ color: '#fff', fontSize: '1.15rem', marginBottom: '0.65rem', fontWeight: 700 }}>{f.title}</h3>
+                    <p style={{ fontSize: '0.9rem', lineHeight: '1.65', color: 'rgba(240,248,243,0.55)', margin: 0 }}>{f.desc}</p>
+                  </div>
+                </TiltCard>
               </motion.div>
             ))}
           </div>
         </motion.div>
       </section>
 
-      {/* Featured Section - Telugu Names */}
-      <section style={{ background: 'var(--surface-hover)', padding: '6rem 0', overflow: 'hidden' }}>
-        <motion.div 
+      {/* ══════════════════ FEATURED PRODUCTS ══════════════════ */}
+      <section style={{ background: 'linear-gradient(180deg, #040d07 0%, #061510 100%)', padding: '7rem 0', overflow: 'hidden' }}>
+        <motion.div
           className="container"
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.1 }}
           variants={staggerContainer}
         >
-          <div className="flex justify-between items-end mb-8 flex-wrap gap-4">
-            <motion.div variants={itemVariantLeft}>
-              <h2 style={{ marginBottom: '0.5rem', color: 'var(--primary)' }}>{t('special.title')}</h2>
-              <p>{t('special.subtitle')}</p>
+          {/* Header */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '3rem', flexWrap: 'wrap', gap: '1rem' }}>
+            <motion.div variants={fadeLeft}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(217,48,37,0.08)', border: '1px solid rgba(217,48,37,0.22)', color: '#d93025', padding: '0.4rem 1.1rem', borderRadius: '9999px', fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '1rem' }}>
+                <Star size={12} fill="#d93025" /> {t('special.title')}
+              </div>
+              <h2 style={{ color: '#f2ede8', margin: 0 }}>{t('special.subtitle')}</h2>
             </motion.div>
-            <motion.div variants={itemVariantRight}>
-              <Link href="/shop?section=special" className="btn btn-outline" style={{ padding: '0.25rem 0.8rem', fontSize: '0.85rem' }}>{t('special.viewAll')}</Link>
+            <motion.div variants={fadeRight}>
+              <Link href="/shop?section=special" className="btn btn-outline" style={{ padding: '0.6rem 1.5rem', fontSize: '0.9rem' }}>
+                {t('special.viewAll')} <ArrowRight size={16} />
+              </Link>
             </motion.div>
           </div>
 
-          <div style={{
-            display: 'flex',
-            overflowX: 'auto',
-            gap: '1.5rem',
-            paddingBottom: '1rem',
-            scrollSnapType: 'x mandatory'
-          }} className="no-scrollbar">
-            {[
-              { id: '1', name: t('special.items.avakaya'), telugu: "ఆవకాయ", price: 300, price1kg: 600, rating: 5, reviews: 150, image: "/images/mango.png", category: 'Veg' },
-              { id: '12', name: t('special.items.chicken'), telugu: "కోడి పచ్చడి", price: 400, price1kg: 800, rating: 5, reviews: 98, image: "/images/chicken.png", category: 'Non-veg' },
-              { id: '4', name: t('special.items.gongura'), telugu: "గోంగూర", price: 275, price1kg: 550, rating: 4, reviews: 112, image: "/images/Gongura.png", category: 'Veg' },
-              { id: '7', name: t('special.items.ginger'), telugu: "అల్లం పచ్చడి", price: 250, price1kg: 500, rating: 5, reviews: 80, image: "/images/Ginger.png", category: 'Veg' },
-              { id: '16', name: t('special.items.prawns'), telugu: "రొయ్యల పచ్చడి", price: 500, price1kg: 1000, rating: 5, reviews: 105, image: "/images/prawns.png", category: 'Non-veg' }
-            ].map((item, i) => (
-              <motion.div variants={itemVariant} key={i}>
-                <Link href={`/shop/${item.id}`} className="card group" style={{
-                  minWidth: '280px',
-                  maxWidth: '280px',
-                  scrollSnapAlign: 'start',
-                  flexShrink: 0,
-                  textDecoration: 'none',
-                  display: 'block'
-                }}>
-                  <div style={{
-                    height: '200px',
-                    background: '#fff',
-                    borderRadius: '1rem',
-                    marginBottom: '0.75rem',
-                    overflow: 'hidden',
-                    position: 'relative',
-                    boxShadow: '0 8px 24px rgba(0,0,0,0.08)',
-                    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                    border: '1px solid rgba(0,0,0,0.05)'
-                  }} className="group-hover:scale-[1.02] group-hover:shadow-lg">
-                    <span style={{
-                      position: 'absolute',
-                      top: '8px',
-                      right: '8px',
-                      background: item.category === 'Veg' ? '#4caf50' : '#f44336',
-                      color: 'white',
-                      padding: '2px 8px',
-                      borderRadius: '6px',
-                      fontSize: '0.75rem',
-                      fontWeight: 'bold',
-                      zIndex: 2,
-                      boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
-                    }}>
-                      {item.category === 'Veg' ? t('special.veg') : t('special.nonVeg')}
-                    </span>
+          {/* Product Scroll */}
+          <div style={{ display: 'flex', gap: '1.5rem', overflowX: 'auto', paddingBottom: '1.5rem', scrollSnapType: 'x mandatory' }} className="no-scrollbar">
+            {featuredItems.map((item, i) => (
+              <motion.div key={i} variants={fadeUp} whileHover={{ y: -6 }} style={{ minWidth: 280, scrollSnapAlign: 'start', flexShrink: 0 }}>
+                <Link href={`/shop/${item.id}`} style={{ textDecoration: 'none', display: 'block' }}>
+                  <div className="card" style={{ padding: '1rem', border: '1px solid rgba(255,255,255,0.07)' }}>
+                    {/* Image */}
+                    <div className="product-card-img">
+                      {/* Category badge */}
+                      <span style={{
+                        position: 'absolute', top: 10, left: 10, zIndex: 3,
+                        background: item.category === 'Veg'
+                          ? 'linear-gradient(135deg, #e8a020, #b87a10)'
+                          : 'linear-gradient(135deg, #d93025, #8b0000)',
+                        color: '#fff',
+                        padding: '3px 10px',
+                        borderRadius: '9999px',
+                        fontSize: '0.72rem',
+                        fontWeight: 700,
+                        letterSpacing: '0.05em',
+                        boxShadow: '0 2px 8px rgba(0,0,0,0.4)',
+                      }}>
+                        {item.category === 'Veg' ? '● VEG' : '● NON-VEG'}
+                      </span>
 
-                    {item.image ? (
-                      <div 
-                          style={{ width: '100%', height: '100%', position: 'relative' }}
-                          onDoubleClick={(e) => handleDoubleTap(item.id, e)}
-                      >
-                        <div style={{
-                              position: 'absolute',
-                              top: 0, left: 0, right: 0, bottom: 0,
-                              display: 'flex', alignItems: 'center', justifyContent: 'center',
-                              zIndex: 5, pointerEvents: 'none',
-                              opacity: doubleTapItem === item.id ? 1 : 0,
-                              transform: doubleTapItem === item.id ? 'scale(1)' : 'scale(0.5)',
-                              transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
-                          }}>
-                              <Heart size={80} color="white" fill="#ef4444" style={{ filter: 'drop-shadow(0 10px 15px rgba(0,0,0,0.3))' }} />
-                        </div>
+                      {/* Double-tap heart */}
+                      <div style={{
+                        position: 'absolute', inset: 0, zIndex: 5,
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        pointerEvents: 'none',
+                        opacity: doubleTapItem === item.id ? 1 : 0,
+                        transform: doubleTapItem === item.id ? 'scale(1)' : 'scale(0.4)',
+                        transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+                      }}>
+                        <Heart size={80} fill="#ef4444" color="transparent" style={{ filter: 'drop-shadow(0 0 20px rgba(239,68,68,0.8))' }} />
+                      </div>
+
+                      <div style={{ width: '100%', height: '100%', position: 'relative' }} onDoubleClick={e => handleDoubleTap(item.id, e)}>
                         <Image
                           src={item.image}
                           alt={item.name}
                           fill
-                          style={{ objectFit: 'cover' }}
-                          sizes="(max-width: 768px) 100vw, 280px"
+                          style={{ objectFit: 'cover', transition: 'transform 0.5s ease' }}
+                          sizes="280px"
                         />
-                        <div style={{
-                          position: 'absolute',
-                          bottom: '0',
-                          left: '0',
-                          right: '0',
-                          background: 'linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0))',
-                          padding: '1rem 0.5rem 0.5rem',
-                          color: 'white',
-                          fontSize: '0.9rem',
-                          fontWeight: '600',
-                          zIndex: 2,
-                          pointerEvents: 'none'
-                        }}>
-                          {item.name}
-                        </div>
+                      </div>
 
-                        {/* Native Mobile Share Button */}
-                        <button
-                          onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              if (typeof navigator !== 'undefined' && navigator.share) {
-                                  navigator.share({
-                                      title: item.name,
-                                      text: t('special.shareText').replace('{item}', item.name),
-                                      url: window.location.origin + `/shop/${item.id}`,
-                                  }).catch(() => {});
-                              } else {
-                                  navigator.clipboard.writeText(window.location.origin + `/shop/${item.id}`);
-                                  alert(t('special.copied'));
-                              }
-                          }}
-                          style={{
-                              position: 'absolute',
-                              bottom: '10px',
-                              right: '10px',
-                              background: 'rgba(255, 255, 255, 0.9)',
-                              backdropFilter: 'blur(4px)',
-                              padding: '8px',
-                              borderRadius: '50%',
-                              zIndex: 10,
-                              boxShadow: '0 4px 10px rgba(0,0,0,0.3)',
-                              color: 'var(--primary)',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              border: 'none',
-                              cursor: 'pointer'
-                          }}
-                          className="mobile-share-btn"
-                          aria-label="Share product"
+                      {/* Gradient overlay */}
+                      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '60%', background: 'linear-gradient(to top, rgba(4,13,7,0.95), transparent)', zIndex: 2, pointerEvents: 'none' }} />
+
+                      {/* Share button */}
+                      <button
+                        onClick={e => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          if (typeof navigator !== 'undefined' && navigator.share) {
+                            navigator.share({ title: item.name, text: t('special.shareText').replace('{item}', item.name), url: window.location.origin + `/shop/${item.id}` }).catch(() => {});
+                          } else {
+                            navigator.clipboard.writeText(window.location.origin + `/shop/${item.id}`);
+                            alert(t('special.copied'));
+                          }
+                        }}
+                        style={{ position: 'absolute', bottom: 10, right: 10, zIndex: 4, background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.2)', color: 'white', padding: '7px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.2s' }}
+                        aria-label="Share product"
                       >
-                          <Share2 size={18} />
+                        <Share2 size={15} />
                       </button>
+                    </div>
+
+                    {/* Info */}
+                    <div style={{ padding: '0.25rem 0.25rem 0' }}>
+                      <h3 style={{ color: '#fff', fontSize: '1.05rem', marginBottom: '0.2rem', fontWeight: 700 }}>{item.name}</h3>
+                      <p style={{ color: '#00c853', fontSize: '0.88rem', fontWeight: 600, marginBottom: '0.9rem' }}>{item.telugu}</p>
+
+                      {/* Stars */}
+                      <div style={{ display: 'flex', gap: '2px', marginBottom: '0.9rem' }}>
+                        {Array.from({ length: 5 }).map((_, si) => (
+                          <Star key={si} size={13} fill={si < item.rating ? '#f5c842' : 'transparent'} color={si < item.rating ? '#f5c842' : 'rgba(245,200,66,0.25)'} />
+                        ))}
+                        <span style={{ fontSize: '0.75rem', color: 'rgba(242,237,232,0.4)', marginLeft: '4px' }}>({item.reviews})</span>
                       </div>
-                    ) : (
-                      <span style={{ fontSize: '4rem' }}>🥒</span>
-                    )}
-                  </div>
-                  <div>
-                    <h3 style={{ marginBottom: '0.2rem', fontSize: '1.1rem', color: 'var(--foreground)' }}>{item.name}</h3>
-                    <p style={{ fontSize: '0.9rem', color: 'var(--primary)', fontWeight: '600', marginBottom: '1rem' }}>{item.telugu}</p>
-                  </div>
-                  <div style={{ 
-                      background: '#f8fafc', 
-                      padding: '0.75rem', 
-                      borderRadius: '0.75rem', 
-                      border: '1px solid #e2e8f0',
-                      marginTop: 'auto'
-                  }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-                          <span style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '600' }}>500g</span>
-                          <span style={{ fontWeight: '700', fontSize: '1.1rem', color: 'var(--primary)' }}>₹{item.price}</span>
+
+                      {/* Prices */}
+                      <div className="price-box">
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                          <span style={{ fontSize: '0.8rem', color: 'rgba(242,237,232,0.45)', fontWeight: 600 }}>500g</span>
+                          <span style={{ fontWeight: 800, color: '#e8a020', fontSize: '1.05rem' }}>₹{item.price}</span>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px dashed rgba(232,160,32,0.2)', paddingTop: '6px' }}>
+                          <span style={{ fontSize: '0.8rem', color: 'rgba(242,237,232,0.45)', fontWeight: 600 }}>1 kg</span>
+                          <span style={{ fontWeight: 800, color: '#e8a020', fontSize: '1.05rem' }}>₹{item.price1kg}</span>
+                        </div>
                       </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px dashed #cbd5e1', paddingTop: '6px' }}>
-                          <span style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '600' }}>1kg</span>
-                          <span style={{ fontWeight: '700', fontSize: '1.1rem', color: 'var(--primary)' }}>₹{item.price1kg}</span>
-                      </div>
+                    </div>
                   </div>
                 </Link>
               </motion.div>
@@ -417,162 +422,202 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* About Preview - Village Story */}
-      <section id="about" style={{ padding: '6rem 0', overflow: 'hidden' }}>
+      {/* ══════════════════ ABOUT / STORY ══════════════════ */}
+      <section style={{ padding: '7rem 0', background: 'linear-gradient(180deg, #061510 0%, #040d07 100%)', overflow: 'hidden' }}>
         <div className="container">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Text */}
             <motion.div
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, amount: 0.3 }}
-              variants={itemVariantLeft}
+              variants={fadeLeft}
             >
-              <span style={{ color: 'var(--secondary)', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '1px' }}>{t('about.roots')}</span>
-              <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem', color: 'var(--primary)' }}>{t('about.title')}</h2>
-              <p style={{ fontSize: '1.1rem', lineHeight: '1.8', marginBottom: '1.5rem' }}>
-                {t('about.p1')}
-              </p>
-              <p style={{ fontSize: '1.1rem', lineHeight: '1.8', marginBottom: '2rem' }}>
-                {t('about.p2')}
-              </p>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(217,48,37,0.08)', border: '1px solid rgba(217,48,37,0.22)', color: '#d93025', padding: '0.4rem 1.1rem', borderRadius: '9999px', fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '1.5rem' }}>
+                <ChefHat size={13} /> {t('about.roots')}
+              </div>
+              <h2 style={{ color: '#f2ede8', marginBottom: '1.5rem', lineHeight: 1.15 }}>
+                {t('about.title').split(' ').slice(0, 3).join(' ')}{' '}
+                <span style={{ background: 'linear-gradient(135deg, #e8a020, #f5c842)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+                  {t('about.title').split(' ').slice(3).join(' ')}
+                </span>
+              </h2>
+              <p style={{ fontSize: '1.05rem', lineHeight: 1.8, marginBottom: '1.25rem', color: 'rgba(240,248,243,0.6)' }}>{t('about.p1')}</p>
+              <p style={{ fontSize: '1.05rem', lineHeight: 1.8, marginBottom: '2rem', color: 'rgba(240,248,243,0.6)' }}>{t('about.p2')}</p>
+
+              {/* Small feature chips */}
+              <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+                {[
+                  { icon: <Leaf size={14} />, label: 'Farm Fresh', color: '#e8a020' },
+                  { icon: <Globe2 size={14} />, label: 'Pan India Delivery', color: '#ff8c42' },
+                  { icon: <ShieldCheck size={14} />, label: 'No Preservatives', color: '#f5c842' },
+                ].map((c, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', background: `${c.color}12`, border: `1px solid ${c.color}25`, color: c.color, padding: '0.4rem 0.9rem', borderRadius: '9999px', fontSize: '0.82rem', fontWeight: 600 }}>
+                    {c.icon} {c.label}
+                  </div>
+                ))}
+              </div>
             </motion.div>
-            <motion.div 
+
+            {/* Image Card */}
+            <motion.div
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, amount: 0.3 }}
-              variants={itemVariantRight}
-              style={{
-                height: '400px',
-                background: 'url("https://images.unsplash.com/photo-1605333396915-47ed6b68a00e?q=80&w=1000&auto=format&fit=crop")',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                borderRadius: 'var(--radius)',
-                boxShadow: 'var(--shadow-lg)',
-                position: 'relative'
-              }}
+              variants={fadeRight}
             >
-              <motion.div 
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.8 }}
-                viewport={{ once: true }}
-                style={{
-                  position: 'absolute',
-                  bottom: '2rem',
-                  left: '2rem',
-                  background: 'rgba(255,255,255,0.9)',
-                  padding: '1rem',
-                  borderRadius: 'var(--radius)',
-                  maxWidth: '80%',
-                  backdropFilter: 'blur(10px)'
-                }}
-              >
-                <p style={{ margin: 0, fontWeight: 'bold', color: 'var(--primary)' }}>{t('about.authentic')}</p>
-                <p style={{ margin: 0, fontSize: '0.9rem' }}>{t('about.grinding')}</p>
-              </motion.div>
+              <TiltCard>
+                <div style={{ position: 'relative', borderRadius: '1.5rem', overflow: 'hidden', height: 420, border: '1px solid rgba(0,200,83,0.15)', boxShadow: '0 30px 80px rgba(0,0,0,0.6), 0 0 60px rgba(0,200,83,0.08)' }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="https://images.unsplash.com/photo-1605333396915-47ed6b68a00e?q=80&w=1000&auto=format&fit=crop"
+                    alt="Traditional pickle making"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                  {/* Overlay */}
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(4,13,7,0.9) 0%, rgba(4,13,7,0.2) 50%, transparent 100%)' }} />
+
+                  {/* Floating info card */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.6, duration: 0.7 }}
+                    viewport={{ once: true }}
+                    style={{
+                      position: 'absolute', bottom: '1.5rem', left: '1.5rem', right: '1.5rem',
+                      background: 'rgba(4,13,7,0.85)',
+                      backdropFilter: 'blur(20px)',
+                      border: '1px solid rgba(0,200,83,0.2)',
+                      borderRadius: '1rem',
+                      padding: '1rem 1.25rem',
+                    }}
+                  >
+                    <p style={{ margin: 0, fontWeight: 800, color: '#e8a020', fontSize: '1rem' }}>{t('about.authentic')}</p>
+                    <p style={{ margin: 0, color: 'rgba(240,248,243,0.55)', fontSize: '0.85rem', marginTop: '0.2rem' }}>{t('about.grinding')}</p>
+                  </motion.div>
+                </div>
+              </TiltCard>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" style={{ padding: '6rem 0', background: 'var(--surface-hover)', overflow: 'hidden' }}>
-        <motion.div 
+      {/* ══════════════════ CONTACT ══════════════════ */}
+      <section id="contact" style={{ padding: '7rem 0', background: 'linear-gradient(180deg, #040d07 0%, #061510 100%)', overflow: 'hidden' }}>
+        <motion.div
           className="container text-center"
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
           variants={staggerContainer}
         >
-          <motion.h2 variants={itemVariant} style={{ fontSize: '2.5rem', marginBottom: '1rem', color: 'var(--primary)' }}>{t('contact.title')}</motion.h2>
-          <motion.p variants={itemVariant} style={{ fontSize: '1.2rem', marginBottom: '3rem', color: 'var(--muted)' }}>{t('contact.subtitle')}</motion.p>
-
-          <motion.div variants={itemVariant} className="card text-center" style={{ 
-            maxWidth: '650px', 
-            width: '95%',
-            margin: '0 auto', 
-            padding: '4rem 2rem', 
-            background: 'linear-gradient(145deg, #ffffff 0%, #f0fdf4 100%)',
-            border: '1px solid rgba(0, 101, 54, 0.1)',
-            boxShadow: '0 20px 50px rgba(0,0,0,0.06), 0 0 0 8px rgba(255,255,255,0.6) inset',
-            borderRadius: '2rem'
-          }}>
-            <div style={{ marginBottom: '2.5rem' }}>
-              <h3 style={{ 
-                  fontSize: 'clamp(2rem, 5vw, 2.5rem)', 
-                  marginBottom: '1.25rem', 
-                  color: 'var(--primary)', 
-                  fontWeight: '800',
-                  letterSpacing: '-0.5px' 
-              }}>
-                Godavari Pickles
-              </h3>
-              <motion.div 
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                style={{ 
-                  display: 'inline-flex', 
-                  alignItems: 'center', 
-                  gap: '0.85rem', 
-                  background: 'white', 
-                  padding: '0.85rem 1.75rem', 
-                  borderRadius: '50px', 
-                  boxShadow: '0 8px 25px rgba(0,101,54,0.08)',
-                  border: '1px solid rgba(0,101,54,0.05)',
-                  cursor: 'pointer'
-                }}
-              >
-                <span style={{ fontSize: '1.5rem', display: 'flex' }}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: '#25D366' }}><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                </span>
-                <p style={{ fontSize: '1.25rem', color: 'var(--foreground)', fontWeight: '700', margin: 0, letterSpacing: '0.5px' }}>+91 90144 75499</p>
-              </motion.div>
+          <motion.div variants={fadeUp} style={{ marginBottom: '1rem' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(232,160,32,0.08)', border: '1px solid rgba(232,160,32,0.22)', color: '#e8a020', padding: '0.4rem 1.1rem', borderRadius: '9999px', fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '1.5rem' }}>
+              <Phone size={13} /> {t('contact.title')}
             </div>
+          </motion.div>
+          <motion.h2 variants={fadeUp} style={{ color: '#f2ede8', marginBottom: '0.75rem' }}>{t('contact.title')}</motion.h2>
+          <motion.p variants={fadeUp} style={{ fontSize: '1.1rem', marginBottom: '3.5rem', maxWidth: 480, margin: '0 auto 3.5rem' }}>{t('contact.subtitle')}</motion.p>
 
-            <div style={{ width: '80px', height: '4px', background: 'var(--secondary)', margin: '0 auto 2.5rem', borderRadius: '4px', opacity: 0.8 }}></div>
-            
-            <p style={{ fontSize: '1.1rem', color: 'var(--muted)', marginBottom: '1.5rem', textTransform: 'uppercase', letterSpacing: '2px', fontWeight: 600 }}>
-                {t('contact.follow')}
-            </p>
-            
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem' }}>
-              <motion.a 
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  whileTap={{ scale: 0.9 }}
-                  href="https://www.instagram.com/godavaripickles_?igsh=YmdocnlsZ3V4YzAy" target="_blank" rel="noopener noreferrer" style={{ 
-                  borderRadius: '1rem', 
-                  width: '50px', 
-                  height: '50px', 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'center', 
-                  background: 'linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)', 
-                  color: 'white',
-                  boxShadow: '0 8px 16px rgba(225, 48, 108, 0.25)'
-              }}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-              </motion.a>
+          <motion.div variants={fadeUp}>
+            <TiltCard style={{ maxWidth: 600, margin: '0 auto' }}>
+              <div className="card" style={{ padding: '3rem 2.5rem', border: '1px solid rgba(232,160,32,0.15)', background: 'linear-gradient(135deg, rgba(232,160,32,0.06) 0%, rgba(217,48,37,0.03) 100%)' }}>
+                {/* Brand name */}
+                <h3 style={{
+                  fontSize: 'clamp(1.8rem, 4vw, 2.5rem)',
+                  marginBottom: '1.5rem',
+                  color: '#f2ede8',
+                  fontFamily: "'Playfair Display', serif",
+                  fontWeight: 800,
+                }}>
+                  Godavari <span style={{ background: 'linear-gradient(135deg, #e8a020, #f5c842)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Pickles</span>
+                </h3>
 
-              <motion.a 
-                  whileHover={{ scale: 1.1, rotate: -5 }}
-                  whileTap={{ scale: 0.9 }}
-                  href="https://www.facebook.com/share/1AnrSFb9w8/" target="_blank" rel="noopener noreferrer" style={{ 
-                  borderRadius: '1rem', 
-                  width: '50px', 
-                  height: '50px', 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'center', 
-                  background: '#1877F2', 
-                  color: 'white',
-                  boxShadow: '0 8px 16px rgba(24, 119, 242, 0.25)'
-              }}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0" strokeLinecap="round" strokeLinejoin="round"><path fill="currentColor" fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd"></path></svg>
-              </motion.a>
-            </div>
+                {/* Phone */}
+                <motion.a
+                  href="tel:+919014475499"
+                  whileHover={{ scale: 1.04 }}
+                  whileTap={{ scale: 0.96 }}
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '0.9rem',
+                    background: 'rgba(232,160,32,0.09)',
+                    border: '1px solid rgba(232,160,32,0.25)',
+                    padding: '0.9rem 2rem',
+                    borderRadius: '9999px',
+                    textDecoration: 'none',
+                    marginBottom: '2.5rem',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                  }}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#25D366" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.81 12.7 19.79 19.79 0 0 1 1.74 4.11 2 2 0 0 1 3.72 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
+                  <span style={{ fontSize: '1.25rem', color: '#fff', fontWeight: 700, letterSpacing: '0.05em' }}>+91 90144 75499</span>
+                </motion.a>
+
+                {/* Divider */}
+                <div style={{ width: 60, height: 2, background: 'linear-gradient(90deg, transparent, rgba(0,200,83,0.5), transparent)', margin: '0 auto 2rem', borderRadius: 9999 }} />
+
+                {/* Follow label */}
+                <p style={{ fontSize: '0.8rem', color: 'rgba(240,248,243,0.35)', marginBottom: '1.5rem', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 700 }}>
+                  {t('contact.follow')}
+                </p>
+
+                {/* Social icons */}
+                <div style={{ display: 'flex', justifyContent: 'center', gap: '1.25rem' }}>
+                  {/* Instagram */}
+                  <motion.a
+                    href="https://www.instagram.com/godavaripickles_?igsh=YmdocnlsZ3V4YzAy"
+                    target="_blank" rel="noopener noreferrer"
+                    whileHover={{ scale: 1.12, y: -4 }}
+                    whileTap={{ scale: 0.92 }}
+                    style={{ width: 52, height: 52, borderRadius: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)', color: 'white', boxShadow: '0 8px 20px rgba(220,39,67,0.3)', textDecoration: 'none' }}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" /></svg>
+                  </motion.a>
+
+                  {/* Facebook */}
+                  <motion.a
+                    href="https://www.facebook.com/share/1AnrSFb9w8/"
+                    target="_blank" rel="noopener noreferrer"
+                    whileHover={{ scale: 1.12, y: -4 }}
+                    whileTap={{ scale: 0.92 }}
+                    style={{ width: 52, height: 52, borderRadius: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#1877F2', color: 'white', boxShadow: '0 8px 20px rgba(24,119,242,0.3)', textDecoration: 'none' }}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0"><path fill="currentColor" fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd" /></svg>
+                  </motion.a>
+
+                  {/* WhatsApp */}
+                  <motion.a
+                    href="https://wa.me/919014475499"
+                    target="_blank" rel="noopener noreferrer"
+                    whileHover={{ scale: 1.12, y: -4 }}
+                    whileTap={{ scale: 0.92 }}
+                    style={{ width: 52, height: 52, borderRadius: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #25d366, #128c7e)', color: 'white', boxShadow: '0 8px 20px rgba(37,211,102,0.35)', textDecoration: 'none' }}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" /><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.549 4.12 1.51 5.855L0 24l6.335-1.48A11.955 11.955 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.65-.511-5.17-1.402l-.37-.22-3.763.879.937-3.66-.242-.383C2.535 15.59 2 13.857 2 12 2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" fill="currentColor" /></svg>
+                  </motion.a>
+                </div>
+              </div>
+            </TiltCard>
           </motion.div>
         </motion.div>
       </section>
+
+      {/* ══════════════════ FOOTER ══════════════════ */}
+      <footer style={{ background: '#020a05', borderTop: '1px solid rgba(0,200,83,0.08)', padding: '2.5rem 0 1.5rem', textAlign: 'center' }}>
+        <div className="container">
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', marginBottom: '1.25rem' }}>
+            <Image src="/Round_logo.png" alt="Godavari Pickles" width={32} height={32} style={{ borderRadius: '50%', border: '1px solid rgba(232,160,32,0.35)' }} />
+            <span style={{ color: '#fff', fontWeight: 800, fontSize: '1.05rem' }}>Godavari Pickles</span>
+          </div>
+          <p style={{ color: 'rgba(240,248,243,0.25)', fontSize: '0.82rem', marginBottom: '0.5rem' }}>
+            Authentic pickles from the heart of West Godavari · Made with love & tradition
+          </p>
+          <p style={{ color: 'rgba(240,248,243,0.15)', fontSize: '0.75rem', margin: 0 }}>
+            © {new Date().getFullYear()} Godavari Pickles. All rights reserved.
+          </p>
+        </div>
+      </footer>
     </main>
   );
 }
